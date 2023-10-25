@@ -23,34 +23,57 @@ def get_top_keywords(texts, top_n=10):
     top_keywords = feature_array[tfidf_sorting][:top_n]
     return top_keywords.tolist()
 
+def sort_coo(coo_matrix):
+    tuples = zip(coo_matrix.col, coo_matrix.data)
+    return sorted(tuples, key=lambda x: (x[1], x[0]), reverse=True)
+
+def extract_topn_from_vector(feature_names, sorted_items, topn=10):
+    #Vytvorí zoznam kľúčových slov zo zoradených položiek
+    sorted_items = sorted_items[:topn]
+    score_vals = []
+    feature_vals = []
+    #Iterácia cez zoradené položky
+    for idx, score in sorted_items:
+        fname = feature_names[idx]
+        #Získanie názvu funkcie a skóre
+        score_vals.append(round(score, 3))
+        feature_vals.append(feature_names[idx])
+    results = {}
+    #Iterácia cez zoznam kľúčových slov a skóre
+    for idx in range(len(feature_vals)):
+        results[feature_vals[idx]] = score_vals[idx]
+    return list(results.keys())
+
 def processTextToKeywords(text):
-    #Odstránenie interpunkcie
-    text = text.translate(str.maketrans('', '', string.punctuation))
     #Tokenizovanie textu do viet
     sentences = nltk.sent_tokenize(text)
     #Tokenizovanie viet do slov
     tokenized_sentences = [nltk.word_tokenize(sentence) for sentence in sentences]
 
     #Vytvorenie bigramov
-    bigram = Phrases(tokenized_sentences, threshold=1)
+    bigram = Phrases(tokenized_sentences, min_count=1, threshold=1)
     #Vytvorenie trigramov
-    trigram = Phrases(bigram[tokenized_sentences], threshold=1)
+    trigram = Phrases(bigram[tokenized_sentences], min_count=1, threshold=1)
 
     bigram_mod = Phraser(bigram)
     trigram_mod = Phraser(trigram)
 
     #Aplikácia bigramov a trigramov na tokenizované vety
-    processed_text = [trigram_mod[bigram_mod[sentence]] for sentence in tokenized_sentences]
+    processed_text = [' '.join(trigram_mod[bigram_mod[sentence]]) for sentence in tokenized_sentences]
 
-    bigrams_trigrams = list(set(word for sentence in processed_text for word in sentence if '_' in word))
-    other_keywords = [word for sentence in processed_text for word in sentence if '_' not in word]
+    #Spojenie spracovaných viet do jedného textového reťazca
+    joined_text = ' '.join(processed_text)
 
-    #Získanie top kľúčových slov z ostatných kľúčových slov
-    top_keywords = get_top_keywords([' '.join(other_keywords)])[0]
+    #Vytvorenie TF-IDF vektorizéra
+    vectorizer = TfidfVectorizer()
+    #Výpočet TF-IDF hodnôt
+    tfidf_matrix = vectorizer.fit_transform([joined_text])
+    #Získanie názvov funkcií a zoradenie podľa dôležitosti
+    feature_names = vectorizer.get_feature_names_out()
+    sorted_items = sort_coo(tfidf_matrix.tocoo())
 
-    #Spojenie bigramov, trigramov a top kľúčových slov
-    keywords = bigrams_trigrams + top_keywords
-    keywords = keywords[:10]
+    #Získanie top 10 kľúčových slov
+    keywords = extract_topn_from_vector(feature_names, sorted_items, 10)
 
     return keywords
 
@@ -81,7 +104,7 @@ def processGitLog(git_log_text):
 
 def userInput():
     try:
-        with open("git.txt", 'r', encoding='utf-8') as file:
+        with open("doc.txt", 'r', encoding='utf-8') as file:
             input_text = file.read()
     except Exception as e:
         print(f"Error reading file: {e}")
