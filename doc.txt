@@ -1,0 +1,16 @@
+San Andreas Unity is an open source reimplementation of GTA San Andreas game engine in Unity.
+
+This won't be a complete reimplementation, but the focus is on gameplay features, multiplayer, and creating a framework which will allow easy game extending and unlimited modding possibilities.
+
+The game does not distribute any of original GTA assets, so you need to own original game in order to run it.
+
+
+You will no longer be limited by closed source engine. You will have access to all parts of the game, such are internal game mechanics, physics, rendering, etc... you name it.
+
+No more reverse engineering, hooking executables, or stuff like that. Now, with access to powerfull C# and Unity API, development will be much easier.
+
+
+It's cross platform. With some performance improvements, it should be able to run anywhere. Now you can play GTA in multiplayer on desktop, mobile, consoles, in VR/AR. You could maybe even run it in WebGL.
+
+
+And it's not only about San Andreas. We may try to support other versions of GTA, like Vice City or III. Imagine that you can play any version of GTA on any device you like.

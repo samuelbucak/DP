@@ -1,0 +1,42 @@
+f685c437f48721afc0787f27d22c85d96e8684c7 remove some unused files
+54b7984eb1e1bb871352c84291b15b0c542073d6 follow-up on splitting F class
+4ab78a9a7da0a478d1b42d20770178bd934b0407 remove some unused files/code
+54144bf56a03b5f4df80d77f781ab70e0b2ad79e replace obsolete methods from CmdLineUtils with new ones
+0a61efe3881ab278fab8710e049f7d5e3ebb823e fix more of namespace errors
+11c1f5848119c86b5003197564d91ea8b15f24d6 move LoadingThread to Importing assembly
+6780d48c27813e60dd4fcc5ef082e49d3cd182db fix some namespace errors
+b64062140921d0ba2912db34745d623eb0fd25c7 replace namespace
+6cc2929ff7ff2cdf55eadab401b5db52d2ec2732 fix assembly references for Importing assembly
+4ce4d268dfdc1f94beaa83df2da3ac5a98e8d544 fix namespace in ZoneHelpers
+1591762f4c71004b3299976fba9bebf460c5eab8 add meta file
+e783257e4ba839d408d3d7be14deb65e125c6d60 delete all scripts from Utilities folder, except 2 of them which are moved to different folders
+1c96fc50f6d957887bba39ffd2489ed1a66afcb9 Add UGameCoreUtilities submodule
+776ea7c7bca80e3fe4a19ce71f0bd6bb790ce649 Implemented extra components selection for vehicles (#135)
+dbe0220de2b33f60eef0bcbd2c57afb58dc9c671 Weapon animation changes (#134)
+549922f7b9f8f8822c9f60211761aef28485faad updated insta-reload single clip weapon labels to display in format of "xxx" instead of "xxx-xxx" (#133)
+6f0605f8392063fbec26722a39dd78788fba520b add link for "server administration" page
+2b4863debabdbe5579798c1cccb6801322156e6b update download links to point to v4.0 release
+38a637632338f22ef061e68080204e509b9d3358 remove git-lfs from instructions
+21de51d4a14961db038637631cbc38382a017fde update submodule
+44c43c15f4444e3f157a89e5da3c43cbabff2c11 add NavMeshFileExtractor
+587c90df5fad01c672596e747aac64937901e62a remove missing script from GameManager.prefab
+909ccef3e1402881c6301f115f3a5b5b71e2efef delete RCON folder
+27bcb60a02cfc7cd35f04c0c09a784f9bbd43213 remove meta file
+9782fbb8a2b8513e5127b907b61fe6215fd9e070 remove rcon submodule
+9771382506cf23780b7b6804e5136d162273fcae increase AndroidBundleVersionCode
+e0373dd9761625fde801320543d5ac7b72457692 increase version number
+c205e03e4423b6260e14467be371fd52bc61c29a remove some unused settings
+677105ce55a2c39555dc6e37ea46a5453a02b80d change ped's input upload rate to 60 (was 30)
+13897954d53fd16c237dd557c173deea909d82e5 fix errors
+e8b5b0f4796fee121f011507dfa2bdb41211e4b3 add "FPS" and "smooth FPS" to MISC stats
+b096e4a2bdcbc2cc2250482cd5aaab473a449ed9 ...
+7e24c7af258a6aa163bc8cfd3cd20bf1312e391d ...
+01633f3817a3d4a116c5e39dc1a942c95108a2f0 replace Time.time with Time.timeAsDouble - fix problems with floating-point numbers precision when game uptime is high (eg. 1 month)
+cc79defb971989644dde02c458fcaf61c56c7666 add "frame count" and "rendered frame count" to MISC stats
+3997d581e63682b075f399e2774d63b65a50011e do under-aim detection only on server
+7c661aef6d44b0e759d3689befedc7ba913378c2 ignore user specific csproj settings
+1480804c244df1890bbea479385a657c69f283ff add "Diff between network times" to NET stats
+0eab81d7178407da832c9083150d30e3d064e3df Revert "try to interpolate based on local time"
+730456a83bb7e637aec5141999039a91fb268f06 try to interpolate based on local time
+550c6544f76ad3853698f0c938b47389497d050b fix ping sending frequency
+8318a6791263d4ce8ca62076a076ad75a4a16007 try to fix brakes ; refactor vehicle input
