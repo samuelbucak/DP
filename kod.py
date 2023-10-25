@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import nltk
 import re
 import numpy as np
-import string
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 from gensim.models import Phrases
@@ -14,14 +13,6 @@ from gensim.models.phrases import Phraser
 nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
-
-def get_top_keywords(texts, top_n=10):
-    vectorizer = TfidfVectorizer()
-    tfidf_matrix = vectorizer.fit_transform(texts)
-    feature_array = np.array(vectorizer.get_feature_names_out())
-    tfidf_sorting = np.argsort(tfidf_matrix.sum(axis=0)).flatten()[::-1]
-    top_keywords = feature_array[tfidf_sorting][:top_n]
-    return top_keywords.tolist()
 
 def sort_coo(coo_matrix):
     tuples = zip(coo_matrix.col, coo_matrix.data)
