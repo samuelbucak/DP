@@ -122,14 +122,20 @@ def userInput():
 
 def searchSO(keywords, numberOfQuestions=20):
     questions = []
-
     while len(questions) < numberOfQuestions and len(keywords) > 0:
         query = '+'.join(keywords).replace(' ', '+').replace('_', ' ')
         url = f"https://api.stackexchange.com/2.3/search?order=desc&sort=relevance&intitle={query}&site=stackoverflow"
         response = requests.get(url)
         if response.status_code == 200:
             results = json.loads(response.text)
-            questions.extend(results['items'][:numberOfQuestions-len(questions)])
+            for question in results['items'][:numberOfQuestions - len(questions)]:
+                #Získanie odpovede pre aktuálnu otázku
+                answer_url = f"https://api.stackexchange.com/2.3/questions/{question['question_id']}/answers?site=stackoverflow&filter=withbody"
+                answer_response = requests.get(answer_url)
+                if answer_response.status_code == 200:
+                    answers = json.loads(answer_response.text)['items']
+                    question['answers'] = [answer['body'] for answer in answers if 'body' in answer]
+                questions.append(question)
         if len(questions) < numberOfQuestions:
             keywords.pop() #odstránenie posledného kľúčového slova
     return questions
@@ -228,6 +234,10 @@ def printQuestions(questions):
     #Pridanie otázok to textového poľa
     for idx, question in enumerate(questions, 1):
         txt.insert(tk.END, f"{idx}. {question['title']}\n\n")
+        if 'answers' in question:
+            for answer_idx, answer in enumerate(question['answers'], 1):
+                txt.insert(tk.END, f"\tAnswer {answer_idx}: {answer}\n")
+        txt.insert(tk.END, "\n")
 
     #Zakázanie úpravy textového poľa používateľom
     txt.config(state=tk.DISABLED)
