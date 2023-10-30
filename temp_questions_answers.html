@@ -1,0 +1,854 @@
+<html><head><title>StackOverflow Q&A</title></head><body><h2>Question 1: Component based game engine design</h2><div><p>I have been looking at game engine design (specifically focused on 2d game engines, but also applicable to 3d games), and am interested in some information on how to go about it.  I have heard that many engines are moving to a component based design nowadays rather than the traditional deep-object hierarchy.</p>
+
+<p>Do you know of any good links with information on how these sorts of designs are often implemented?  I have seen <a href="http://cowboyprogramming.com/2007/01/05/evolve-your-heirachy/" rel="noreferrer">evolve your hierarchy</a>, but I can't really find many more with detailed information (most of them just seem to say "use components rather than a hierarchy" but I have found that it takes a bit of effort to switch my thinking between the two models).</p>
+
+<p>Any good links or information on this would be appreciated, and even books, although links and detailed answers here would be preferred.  </p>
+</div><h3>Answer 1:</h3><div><p><strong>Update 2013-01-07</strong>: <em>If you want to see a good mix of component-based game engine with the (in my opinion) superior approach of reactive programming take a look at the <a href="http://v-play.net" rel="noreferrer">V-Play engine</a>. It very well integrates QTs <a href="http://v-play.net/doc/index.html#qml-introduction" rel="noreferrer">QML property binding</a> functionality.</em></p>
+
+<p>We did some research on CBSE in games at our university and I collected some material over the years:</p>
+
+<p>CBSE in games literature:</p>
+
+<ul>
+<li>Game Engine Architecture</li>
+<li>Game Programming Gems 4: A System for Managin Game Entities Game</li>
+<li>Game Programming Gems 5: Component Based Object Management</li>
+<li>Game Programming Gems 5: A Generic Component Library</li>
+<li>Game Programming Gems 6: Game Object Component System</li>
+<li>Object-Oriented Game Development</li>
+<li>Architektur des Kerns einer Game-Engine und Implementierung mit Java (german)</li>
+</ul>
+
+<p>A very good and clean example of a component-based game-engine in C# is the <a href="http://www.codeplex.com/elephant" rel="noreferrer">Elephant game framework</a>.</p>
+
+<p>If you really want to know what components are read: Component-based Software Engineering!
+They define a component as:</p>
+
+<blockquote>
+  <p>A <em>software component</em> is a software element that conforms to a component model and can be independently deployed and composed without modification according to a composition standard.</p>
+  
+  <p>A <em>component model</em> <strong>defines specific interaction</strong> and composition standards. A <em>component model implementation</em> is the dedicated set of executable software elements required to support the execution of components that conform to the model.</p>
+  
+  <p>A <em>software component infrastructure</em> is a set of interacting software components designed to ensure that a software system or subsystem constructed using those components and interfaces will satisfy clearly defined performance specifications.</p>
+</blockquote>
+
+<p><strong>My opinions after 2 years of experience</strong> with CBSE in games thought are that object-oriented programming is simply a dead-end. Remember my warning as you watch your components become smaller and smaller, and more like functions packed in components with a lot of useless overhead. Use <a href="https://stackoverflow.com/questions/1028250/what-is-functional-reactive-programming">functional-reactive programming</a> instead. Also take a look at my fresh blog post (which lead me to this question while writing it :)) about <strong><a href="http://lambdor.net/?p=171" rel="noreferrer">Why I switched from component-based game engine architecture to FRP</a></strong>.</p>
+
+<p>CBSE in games papers:</p>
+
+<ul>
+<li><a href="http://books.google.at/books?id=G1jQpyZI2JgC&amp;lpg=PP1&amp;pg=PA66#v=onepage&amp;q=&amp;f=false" rel="noreferrer">Component Based Game Development – A Solution to Escalating Costs and Expanding Deadlines?</a> </li>
+<li><s><a href="http://www.acims.arizona.edu/PUBLICATIONS/PDF/JeffPlummerMSthesis_wo_Appendix.pdf" rel="noreferrer">A Flexible And Expandable Architecture For Computer Games</a></s> (404)</li>
+<li><a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.89.2884&amp;rep=rep1&amp;type=pdf" rel="noreferrer">A Software Architecture for Games</a></li>
+<li><a href="http://web.archive.org/web/20130628084044/http://mi-lab.org/wp-content/blogs.dir/1/files/publications/Haller%20et%20al%20-%20ACM%20SIGGRAPH%20Campfire%202002%20-%20A%20generic%20framework%20for%20game%20development.pdf" rel="noreferrer">A Generic Framework For Game Development</a> (WebArchive)</li>
+<li><a href="http://portal.acm.org/ft_gateway.cfm?id=1658872&amp;type=pdf&amp;coll=portal&amp;dl=ACM&amp;CFID=575755565&amp;CFTOKEN=575755565" rel="noreferrer">Smart Composition Of Game Objects Using Dependency Injection</a></li>
+</ul>
+
+<p>CBSE in games web-links (sorted by relevancy):</p>
+
+<ul>
+<li><s><a href="http://www.oddrosemedia.com/wiki/index.php" rel="noreferrer">Component based objects Wiki</a></s> (Empty wiki)</li>
+<li><a href="http://cowboyprogramming.com/2007/01/05/evolve-your-heirachy" rel="noreferrer">Evolve Your Hierachy</a></li>
+<li><a href="http://www.gamearchitect.net/Articles/GameObjects1.html" rel="noreferrer">Game Object Structure: Inheritance vs. Aggregation</a></li>
+<li><a href="http://scottbilas.com/files/2002/gdc_san_jose/game_objects_paper.pdf" rel="noreferrer" title="PDF">A Data-Driven Game Object System (PDF)</a></li>
+<li><a href="http://scottbilas.com/files/2002/gdc_san_jose/game_objects_slides.ppt" rel="noreferrer">A Data-Driven Game Object System (PPT)</a></li>
+<li><a href="http://blog.scrambled-egg.net" rel="noreferrer">Component-based prototyping tool for flash</a></li>
+<li><s><a href="http://cmpmedia.vo.llnwd.net/o1/vault/gdccanada09/slides/marcinchadyGDCCanada.ppt" rel="noreferrer">Theory and Practice of Game Object Component Architecture</a></s> (404)</li>
+<li><a href="http://t-machine.org/index.php/2007/09/03/entity-systems-are-the-future-of-mmog-development-part-1" rel="noreferrer">Entity Systems are the Future of MMOs</a></li>
+<li><a href="http://www.ogre3d.org/forums/viewtopic.php?f=1&amp;t=36015" rel="noreferrer">ogre3d.org forum: Component Based Objects</a></li>
+<li><a href="http://www.gamedev.net/community/forums/topic.asp?topic_id=463508" rel="noreferrer">gamedev.net: Outboard component-based entity system architecture</a></li>
+<li><a href="http://www.gamedev.net/community/forums/topic.asp?topic_id=489703" rel="noreferrer">gamedev.net: Entity System question</a></li>
+<li><a href="http://web.archive.org/web/20100730072945/http://www.brainfold.org/blog/tag/entity-system" rel="noreferrer">Brainfold entity-system blog</a> (WebArchive)</li>
+</ul>
+</div><h3>Answer 2:</h3><div><p>There does seem to be a lack of information on the subject. I recently implemented this system, and I found a really good GDC Powerpoint that explained the details that are often left behind quite well. That document is here: <a href="http://www.gdcvault.com/play/1911/Theory-and-Practice-of-the" rel="nofollow noreferrer">Theory and Practice of Game Object Component Architecture</a></p>
+
+<p>In addition to that Powerpoint, there are <a href="http://www.purplepwny.com/blog/?p=215" rel="nofollow noreferrer">some good resources</a> and <a href="http://www.purplepwny.com/blog/?p=290" rel="nofollow noreferrer">various blogs</a>. PurplePwny has a good discussion and links to some other resources. <a href="http://www.uglybabystudios.com/?p=488" rel="nofollow noreferrer">Ugly Baby Studios</a> has a bit of a discussion around the idea of how components interact with each other. Good luck!</p>
+</div><h3>Answer 3:</h3><div><p>I researched and implemented this last semester for a game development course.  Hopefully this sample code can point you in the right direction of how you might approach this. <br></p>
+
+<pre><code>class Entity {
+public:
+    Entity(const unsigned int id, const std::string&amp; enttype);
+    ~Entity();
+
+    //Component Interface
+    const Component* GetComponent(const std::string&amp; family) const;
+    void SetComponent(Component* newComp);
+    void RemoveComponent(const std::string&amp; family);
+    void ClearComponents();
+
+    //Property Interface
+    bool HasProperty(const std::string&amp; propName) const;
+    template&lt;class T&gt; T&amp; GetPropertyDataPtr(const std::string&amp; propName);
+    template&lt;class T&gt; const T&amp; GetPropertyDataPtr(const std::string&amp; propName) const;
+
+    //Entity Interface
+    const unsigned int GetID() const;
+    void Update(float dt);
+
+private:
+    void RemoveProperty(const std::string&amp; propName);
+    void ClearProperties();
+    template&lt;class T&gt; void AddProperty(const std::string&amp; propName);
+    template&lt;class T&gt; Property&lt;T&gt;* GetProperty(const std::string&amp; propName);
+    template&lt;class T&gt; const Property&lt;T&gt;* GetProperty(const std::string&amp; propName) const;
+
+    unsigned int m_Id;
+    std::map&lt;const string, IProperty*&gt; m_Properties;
+    std::map&lt;const string, Component*&gt; m_Components;
+};
+</code></pre>
+
+<p>Components specify behavior and operate on properties.  Properties are shared between all components by a reference and get updates for free.  This means no large overhead for message passing.  If there's any questions I'll try to answer as best I can.</p>
+</div><h3>Answer 4:</h3><div><p>I am currently researching this exact topic in the many (MANY) threads at GameDev.net and found the following two solutions to be good candidates on what I will develop for my game:</p>
+
+<ul>
+<li><a href="http://www.gamedev.net/community/forums/topic.asp?topic_id=537445" rel="nofollow noreferrer">Critique my component-based entity system</a></li>
+<li><a href="http://www.gamedev.net/community/forums/topic.asp?topic_id=463508&amp;whichpage=3&amp;#3089913" rel="nofollow noreferrer">Outboard component-based entity system architecture -> Lord_Evil's proposal</a></li>
+</ul>
+</div><h3>Answer 5:</h3><div><p>It is open-source, and available at <a href="http://codeplex.com/elephant" rel="nofollow noreferrer">http://codeplex.com/elephant</a></p>
+
+<p>Some one’s made a working example of the gpg6-code, you can find it here: <a href="http://www.unseen-academy.de/componentSystem.html" rel="nofollow noreferrer">http://www.unseen-academy.de/componentSystem.html</a></p>
+
+<p>or here: <a href="http://www.mcshaffry.com/GameCode/thread.php?threadid=732" rel="nofollow noreferrer">http://www.mcshaffry.com/GameCode/thread.php?threadid=732</a></p>
+
+<p>regards</p>
+</div><h3>Answer 6:</h3><div><p>While not a complete tutorial on the subject of game engine design, I have found that <a href="http://gameprogrammingpatterns.com/component.html" rel="noreferrer">this page</a> has some good detail and examples on use of the component architecture for games.</p>
+</div><h3>Answer 7:</h3><div><p>Interesting artcle...</p>
+
+<p>I've had a quick hunt around on google and found nothing, but you might want to check some of the comments - plenty of people seem to have had a go at implementing a simple component demo, you might want to take a look at some of theirs for inspiration:</p>
+
+<blockquote>
+  <p><a href="http://www.unseen-academy.de/componentSystem.html" rel="nofollow noreferrer">http://www.unseen-academy.de/componentSystem.html</a><br>
+  <a href="http://www.mcshaffry.com/GameCode/thread.php?threadid=732" rel="nofollow noreferrer">http://www.mcshaffry.com/GameCode/thread.php?threadid=732</a><br>
+  <a href="http://www.codeplex.com/Wikipage?ProjectName=elephant" rel="nofollow noreferrer">http://www.codeplex.com/Wikipage?ProjectName=elephant</a></p>
+</blockquote>
+
+<p>Also, the comments themselves seem to have a fairly in-depth discussion on how you might code up such a system.</p>
+</div><h3>Answer 8:</h3><div><p>In this context components to me sound like isolated runtime portions of an engine that may execute concurrently with other components. If this is the motivation then you might want to look at the <a href="http://en.wikipedia.org/wiki/Actor_model" rel="nofollow noreferrer">actor model</a> and systems that make use of it.</p>
+</div><hr><h2>Question 2: 2D cross-platform game engine for Android and iOS?</h2><div><p>I've worked for some time with Unity3d and found it's 2D part with OnGUI() or GUITextures too clumsy. Also, even a smallest game done on Unity3d is at least 10MB download which is just too much for a 2D game. </p>
+
+<p>So, I'm currently looking for an engine for 2D. I've tried Cocos2D but it's iOS only and I wouldn't like to rewrite everything into another language for Android (so, e.g. Java port of Cocos2d for Android is not an option). Instead, I want to write the code once and with least hassle deploy it on iOS, Android and possibly Windows Phone 7. I have both Mac and Windows.</p>
+
+<p>Just to be more detailed, here are my requirements to the engine: </p>
+
+<ul>
+<li>must be cross-platform </li>
+<li>must be efficient</li>
+<li>should be C++, Java, C# or Objective C since I'm comfortable with them and <em>NOT</em> Flash, Javascript, HTML5 since I am not a web developer</li>
+<li>must have a large community, tutorials, additional libraries which cover most of the stuff you'd have when developing on iOS or Android directly (in-app billing, facebook etc.) </li>
+<li>the final delivered package must be not too large</li>
+<li>the engine can be free, but I also wouldn't mind paying a reasonable price </li>
+</ul>
+
+<p>I've found the following engines:</p>
+
+<ul>
+<li><a href="http://www.madewithmarmalade.com/marmaladesdk" rel="noreferrer">Marmalade</a> (and <a href="http://www.drmop.com/index.php/iwgame-engine/" rel="noreferrer">IwGame engine</a> on top of it) - C++, found overall very positive reviews of Marmalade but not sure about IwGame. <strong>EDIT (March 2013)</strong>: Looks like Marmalade SDK now includes Cocos2Dx and some in-built IDE which makes it much better (and costs $150 per year for indie dev which is ok with me).</li>
+<li><a href="http://www.coronalabs.com/products/corona-sdk/" rel="noreferrer">Corona SDK</a> - Lua (efficiency doubtful), also needs internet connection to compile code</li>
+<li><a href="http://www.cocos2d-x.org/" rel="noreferrer">Cocos2d-x</a> - C++, received lots of reviews from developers, mostly positive and many think it's best for 2D</li>
+<li><a href="http://www.particlecode.com/features/core-api/" rel="noreferrer">Particle code</a> - Java+Eclipse, found no reviews or comments</li>
+<li><a href="http://getmoai.com/products/sdk/" rel="noreferrer">Moai</a> - Lua, coudn't find any reviews/opinions on it</li>
+<li><a href="http://jmonkeyengine.com/" rel="noreferrer">Monkey engine</a> - seems to have too few features</li>
+<li><a href="http://www.haxenme.org/" rel="noreferrer">Haxenme</a> - it's Flash, I've never used it and don't want to</li>
+<li>use <a href="http://unity3d.com/" rel="noreferrer">Unity3d</a> but with 2D packages like 2D Toolkit</li>
+<li>ports of <a href="http://www.libsdl.org/" rel="noreferrer">SDL</a> to <a href="http://www.anddev.org/sdl_port_for_android_sdk-ndk_16-t9218.html" rel="noreferrer">Android</a> (also <a href="http://forums.libsdl.org/viewtopic.php?t=6471&amp;sid=e8752d0c482fa77a95243b9210c9e33c" rel="noreferrer">here</a>) and <a href="http://immersedcode.org/2011/4/25/sdl-on-ios/" rel="noreferrer">iOS</a> - doesn't look to have much support or current development (?)</li>
+<li><a href="http://www.glbasic.com/" rel="noreferrer">GLBasic</a> - Basic language, I don't like it</li>
+<li><a href="http://code.google.com/p/playn/" rel="noreferrer">playN</a> - seems to be early in development (?)</li>
+<li><a href="http://gamvas.com/" rel="noreferrer">Gamvas</a> - HTML5, doesn't look like a mature engine to me</li>
+<li><a href="http://ignifuga.org/features/" rel="noreferrer">Ignifuga</a> - Python, also doesn't look mature</li>
+<li><a href="http://orx-project.org/about" rel="noreferrer">ORX</a> - not sure if it's still developed (?)</li>
+<li><a href="http://www.scirra.com/construct2/event-editor" rel="noreferrer">Construct 2</a> - reminds GameMaker, might be ok for rapid prototypes but definitely not for industry-level games</li>
+<li><a href="https://dev.windowsphone.com/en-us/downloadsdk" rel="noreferrer">XNA</a> and then port the game using <a href="http://andrewrussell.net/exen/" rel="noreferrer">ExEn</a> (would need <a href="http://xamarin.com/monotouch" rel="noreferrer">Mono Touch</a> to port to iOS and <a href="http://xamarin.com/monoforandroid" rel="noreferrer">Mono for Android</a> to port to Android) - C#, and is probably more thought for folks coming from Microsoft products like xBox (I come from Android). Also, those Mono tools cost $800 in total for small developers</li>
+<li><a href="http://impactjs.com/" rel="noreferrer">Impact</a> - JavaScript, uses HTML5. I'm not much into JavaScript (e.g. preferred C# on Unity3d), also not sure about efficiency since it runs in the browser (?)</li>
+<li><a href="http://www.yoyogames.com/gamemaker/studio" rel="noreferrer">GameMaker</a> - own scripting language GML and I actually remember this one as a tool for non-programmers. Has it actually grown into a real engine, I mean for serious development?</li>
+<li><a href="http://www.appgamekit.com/" rel="noreferrer">AppGameKit</a> - C++, yet seems to be still pretty new. Haven't found any reviews on it</li>
+<li>use <a href="http://cocos2d.org/" rel="noreferrer">Cocos2D</a> and Objective C to develop for iOS only and then make an APK for Android out of it using <a href="http://www.yeecco.com/stella" rel="noreferrer">Stella SDK</a>. Has anyone done this? I'm pretty sure there will be limitations, and how about Google's in-app billing, AdMob and Facebook integration on Android?</li>
+<li><a href="http://moscrif.com/why-moscrif" rel="noreferrer">Moscrif</a> - JavaScript, looks like it's more for former web-developers</li>
+<li><a href="http://gamua.com/starling/features/" rel="noreferrer">Starling</a> - Flash 11, i'm not much into Flash</li>
+<li><a href="http://www.nulldesign.de/" rel="noreferrer">ND2D</a> - not yet 1.0, does it have many features?</li>
+</ul>
+
+<p>So, I'd be happy if you could comment from your experiences with the engines and suggest which one in the list (or anything else that I've missed) is the best for the described requirements. I also may be wrong with my first impressions about some of the engines.</p>
+
+<p>I'm currently thinking of Marmalade+IwGame as the best option but since I don't have much info about Cocos2d-x and Particle code, I am not really sure about it.</p>
+
+<p>Thank you!</p>
+
+<p><strong>EDIT (June 2013)</strong>: So far I made 2 cross-platform 2D games and used Unity3D with 2D Toolkit plugin for both. For the game with simple GUI I used a simple self-made GUI system based on Unity's own. For more complex one (e.g. where GUI elements can overlap) I used the NGUI plugin. Recently 2D Toolkit added some more classes for GUI which is very handy since one had to use 2 different systems for texture atlases when combining NGUI with 2D Toolkit. I'll definitely try that one in the next 2D game. The main reason for choosing Unity3D for 2D games was that I already was deep into Unity3D both in terms of experience and accumulated code snippets for re-use. Also, I purchased Unity3D pro (with Android Pro and iOS Pro) for 3D games and it made full sense to just pay additional $60 for the 2D Toolkit to get 2D games also covered. I so far don't regret my decision, it seems to have been optimal for my case. The only thing which gave me headache was adding social features with the Prime31's plugins (Android &amp; iOS social plugins) but I assume that their bugs are not the fault of Prime31 but of Twitter/Facebook instead, so I probably would see the same bugs on any other engine or plugin.</p>
+
+<p><strong>EDIT (Jan 2014)</strong>: I guess with Unity 4.3 the answer to my question is pretty obvious now: the Unity's new sprites system and maybe also 2DToolkit totally beat anything else, especially for people who have (like me) been on Unity for a while and purchased the Pro version with add-ons.</p>
+</div><h3>Answer 1:</h3><div><p>I've worked with <code>Marmalade</code> and I found it satisfying. Although it's not free and the developer community is also not large enough, but still you can handle most of the task using it's tutorials. (I'll write my tutorials once I got some times too).<br>
+<code>IwGame</code> is a good engine, developed by one of the Marmalade user. It's good for a basic game, but if you are looking for some serious advanced gaming stuff, you can also use <code>Cocos2D-x</code> with Marmalade. I've never used Cocos2D-x, but there's an Extension on Marmalade's <code>Github</code>.<br>
+Another good thing about Marmalade is it's <code>EDK (Extension Development Kit)</code>, which lets you make an extension for whatever functionality you need which is available in native code, but not in Marmalade. I've used it to develop my own Customized Admob extension and a Facebook extension too.</p>
+
+<p><strong>Edit</strong>:<br>
+Marmalade now has it's own RAD(Rapid Application Development) tool just for 2D development, named as <a href="http://www.madewithmarmalade.com/quick" rel="nofollow noreferrer"><code>Marmalade Quick</code></a>. Although the coding will be in Lua not in C++, but since it's built on top of C++ Marmalade, you can easily include a C++ library, and all other EDK extensions. Also the <code>Cocos-2Dx</code> and <code>Box2D</code> extensions are preincluded in the Quick. They recently launched it's Release version (It was in beta for 3-4 months). I think we you're really looking for only 2D development, you should give it a try.</p>
+
+<p><strong>Update:</strong><br>
+Unity3D recently launched support for 2D games, which seems better than any other 2D game engine, due to it's GUI and Editor. Physics, sprite etc support is inbuilt. You can have a look on it.</p>
+
+<p><strong>Update 2</strong><br>
+Marmalade is going to discontinue their SDK in favor of their in-house game production soon. So it won't be a wise decision to rely on that.</p>
+</div><h3>Answer 2:</h3><div><p>I currently use Corona for business applications with great success. As far as games go, I'm under the impression that it doesn't provide the performance that some of the other cross-platform development engines do. It is worth noting that Carlos (founder of Ansca Mobile/Corona SDK) has started another company on a competing engine; Lanica Platino Engine for Appcelerator Titanium. While I haven't worked with this personally, it does look promising. Keep in mind, however, that it comes with a $999/yr price tag.</p>
+
+<p>All that said, I have been researching Moai for a little while now (since I am already familiar with Lua syntax) and it does seem promising. The fact that it can compile for multiple platforms, not limited to mobile environments, is appealing. </p>
+
+<p>Multimedia Fusion 2 is also a worth contender, considering the complexity of games produced and the performance realized from them. Vincere Totus Astrum (<a href="http://gamesare.com" rel="nofollow">http://gamesare.com</a>) comes to mind.</p>
+</div><h3>Answer 3:</h3><div><p><a href="http://v-play.net/">V-Play</a> (v-play.net) is a cross-platform game engine based on Qt/QML  with many useful V-Play QML game components for handling multiple display resolutions &amp; aspect ratios, animations, particles, physics, multi-touch, gestures, path finding and more. <a href="http://v-play.net/doc/vplay-group.html">API reference</a>
+The engine core is written in native C++, combined with the custom renderer, the games reach a solid performance of 60fps across all devices.</p>
+
+<p>V-Play also comes with ready-to-use game templates for the most successful game genres like tower defense, platform games or puzzle games.</p>
+
+<p>If you are curious about games made with V-Play, here is a quick selection of them:</p>
+
+<ul>
+<li><a href="http://games.v-play.net/squaby/">Squaby</a>: a tower defense game</li>
+<li><a href="http://games.v-play.net/chickenoutbreak/">Chicken Outbreak</a>: a platformer like Doodle Jump</li>
+<li><a href="https://play.google.com/store/apps/details?id=at.impossibru.blockoban">Blockoban</a>: puzzle game</li>
+<li><a href="https://play.google.com/store/apps/details?id=xom.xxmassdeveloper.CrazyElephant">Crazy Elephant</a>: a game similar to Angry Birds</li>
+<li><a href="https://play.google.com/store/apps/details?id=com.xxmassdeveloper.SnowballMania">Snowball Mania</a>: multiplayer action game</li>
+<li><a href="https://play.google.com/store/apps/details?id=at.fhooe.mc.blitzkopf">Blitzkopf</a>: brain game</li>
+</ul>
+
+<p>(Disclaimer: I'm one of the guys behind V-Play)</p>
+</div><h3>Answer 4:</h3><div><p>I find a nice and tidy <a href="http://www.waveengine.net/">Wave game engine</a> few days ago. It uses C# and have Windows Phone and Windows Store converters as well which makes it a great replacement of XNA for me</p>
+</div><h3>Answer 5:</h3><div><p>Check out Loom (<a href="http://theengine.co" rel="noreferrer">http://theengine.co</a>) is a new cross platform 2D game engine featuring hot swapping code &amp; assets on devices. This means that you can work in Photoshop on your assets, you can update your code, modify the UI of your app/game and then see the changes on your device(s) while the app is running.</p>
+
+<p>Thinking to the other cross platform game engines I’ve heard of or even played with, the Loom Game Engine is by far the best in my oppinion with lots of great features. Most of the other similar game engines (Corona SDK, MOAI SDK, Gideros Mobile) are Lua based (with an odd syntax, at least for me). The Loom Game Engine uses LoomScripts, a scripting language inspired from ActionScript 3, with a couple of features borrowed from C#. If you ever developed in ActionScript 3, C# or Java, LoomScript will look familiar to you (and I’m more comfortable with this syntax than with Lua’s syntax).</p>
+
+<p>The 1 year license for the Loom Game Engine costs $500, and I think it’s an affordable price for any indie game developer. Couple of weeks ago the offered a 1 year license for free too. After the license expires, you can still use Loom to create and deploy your own games, but you won’t get any further updates. The creators of  Loom are very confident and they promised to constantly improve their baby making it worthwile to purchase another license.</p>
+
+<p>Without further ado, here are Loom’s great features:</p>
+
+<ol>
+<li><p>Cross platform (iOS, Android, OS X, Windows, Linux/Ubuntu)</p></li>
+<li><p>Rails-inspired workflow lets you spend your time working with your game (one command to create a new project, and another command to run it)</p></li>
+<li><p>Fast compiler</p></li>
+<li><p>Live code and assets editing</p></li>
+<li><p>Possibility to integrate third party libraries</p></li>
+<li><p>Uses Cocos2DX for rendering</p></li>
+<li><p>XML, JSON support</p></li>
+<li><p>LML (markup language) and CSS for styling UI elements</p></li>
+<li><p>UI library</p></li>
+<li><p>Dependency injection</p></li>
+<li><p>Unit test framework</p></li>
+<li><p>Chipmunk physics</p></li>
+<li><p>Seeing your changes live makes multidevice development easy</p></li>
+<li><p>Small download size</p></li>
+<li><p>Built for teams</p></li>
+</ol>
+
+<p>You can find more videos about Loom here: <a href="http://www.youtube.com/user/LoomEngine?feature=watch" rel="noreferrer">http://www.youtube.com/user/LoomEngine?feature=watch</a></p>
+
+<p>Check out this 4 part in-depth tutorial too: <a href="http://www.gamefromscratch.com/post/2013/02/28/A-closer-look-at-the-Loom-game-engine-Part-one-getting-started.aspx" rel="noreferrer">http://www.gamefromscratch.com/post/2013/02/28/A-closer-look-at-the-Loom-game-engine-Part-one-getting-started.aspx</a></p>
+</div><h3>Answer 6:</h3><div><p><a href="http://www.libgdx.com/" rel="noreferrer">LibGDX</a> is one of the best engines I've ever used, works on almost all platforms, and performs twice as fast as cocos2d-x in most tests I've done. You can use any JVM language you like. <a href="http://steigert.blogspot.com" rel="noreferrer">Here's</a> a 13 part tutorial in Java, and <a href="http://cbpowell.wordpress.com/" rel="noreferrer">here's</a> a bunch using jruby. There's a good skeletal animation tool that works with it <a href="http://www.java-gaming.org/index.php?topic=27914.0" rel="noreferrer">here</a>, and it has baked in support for tiled TMX maps as well. The ui framework is awesome, and it has a scene graph and actor style API similar to cocos2d scenes, sprites and actions. The community is awesome, updates are frequent, and the documentation is good. Don't let the java part scare you, it's fast, and you can use jruby or scala or whatever you like. I highly recommend it for 2d or 3d work, it supports both.</p>
+</div><h3>Answer 7:</h3><div><p>and what about <a href="http://libgdx.badlogicgames.com/" rel="noreferrer">LibGDX</a> from BadLogicGames?</p>
+</div><h3>Answer 8:</h3><div><p>I've tried AppGameKit, It's both c++ and Basic.
+It's very easy to code 2d games in the Basic varient, with physics, collision and heaps more.
+It's also in active development, and really cheap (65$).
+The main problem is that it's really hard to compile for Android (you need to download heaps of files and follow difficult guides and things like that)
+My opinion is that it isn't yet good enough for commercial use, but is good for indie programmers
+It's got a medium size community</p>
+</div><h3>Answer 9:</h3><div><p>You mention Haxe/NME but you seem to instinctively dislike it. However, my experience with it has been very positive. Sure, the API is a reimplementation of the Flash API, but you're not limited to targeting Flash, you can also compile to HTML5 or native Windows, Mac, iOS and Android apps. Haxe is a pleasant, modern language similar to Java or C#.</p>
+
+<p>If you're interested, I've written a bit about my experience using Haxe/NME: <a href="http://qwokgames.com/2012/09/porting-from-html5-to-haxe-the-whys-and-the-hows/" rel="noreferrer">link</a></p>
+</div><h3>Answer 10:</h3><div><p>Recently I used an AS3 engine: PushButton (now is dead, but it's still functional and you could use something else) to do this job. To make it works with Android and iOS, the project was compiled in AIR for both platforms and everything worked with no performance damage. Since Flash Builder is kinda expensive ($249), you could use FlashDevelop (there is some tutorials to compile in AIR with it).</p>
+
+<p>Flash could be an option since is very easy to learn.</p>
+</div><h3>Answer 11:</h3><div><p>Here is just a reply from Richard Pickup on LinkedIn to a similar question of mine: </p>
+
+<blockquote>
+  <p>I've used cocos 2dx marmalade and unity on both iOS and android. For
+  2d games cocos2dx is the way to go every time. Unity is just too much
+  overkill for 2d games and as already stated marmalade is just a thin
+  abstraction layer not really a game engine. You can even run cocos2d
+  on top of marmalade. My approach would be to use cocos2dx on iOS and
+  android then in future run cocosd2dx code on top of marmalade as an
+  easy way to port to bb10 and win phone 7</p>
+</blockquote>
+</div><hr><h2>Question 3: iOS Game Engine</h2><div><p>I'm basically new and starting iPhone game development and I want to create 3D games for the platform, I had a look around and it doesn't seems to have much choice if you want a pure 3D oriented game engine that provide you physic etc...</p>
+
+<p>While Googling I come up with 2 solutions:</p>
+
+<p>Unity (unity3d.com), which seems to be somewhat restricted to scripting and while testing I saw the even a simple build is like 28meg... Look to me that the basic version doesn't get you nowhere as most of the features to optimize your Apps. comes with the full version... and you still need a flash screen.</p>
+
+<p>SIO2 (sio2interactive.com), they seems to just release a new version that seems pretty good, they seems to use C++ for coding which is great and have a blender integration. Executable size is like 2meg which seems to me unbelievable for the features they provide, and you can also get the source, and from my tests it run pretty fast too.</p>
+
+<p>Anyway, my question is what does people are using out there?</p>
+
+<p>Unity seems to be the popular choice for "easy" game creation, but SIO2 seems to be more expandable to me (am I right to think that?).</p>
+
+<p>And finally, what would you guys recommend (basically iPhone 3D newbie) to use based on your experience?</p>
+
+<p>PS: I have experience in C++ and basic knowledge in OpenGL (desktop).</p>
+</div><h3>Answer 1:</h3><div><p>Unity would probably be the best option to use in regards to game programming. However, are you a one man or do you have modelers getting animation for your game? If you do not then I recommend Blender, which is an open source tool used to model characters for games and such. </p>
+
+<p>Back to Unity, it seems like the best options just because of the many different types of coding you can do on it. This includes C# and a version of JavaScript for video games. Also, if you're interested in a career for game development then Unity can help you learn scripting so you already know how to do it if you apply for a job. </p>
+
+<p>Lastly, Unity seems to be the like the best engine that is free that can do the most 'stuff' quickly. Prototyping is incredibly quick on Unity and this will help you in the long run when you need to test your game. </p>
+</div><h3>Answer 2:</h3><div><p>There are far more iPhone 3D game engines to choose from than unity and SIO2. I can suggest at least 19 for iOS + 3D development: <a href="http://mobilegameengines.com/iphone/3d_game_engines" rel="nofollow">http://mobilegameengines.com/iphone/3d_game_engines</a></p>
+</div><h3>Answer 3:</h3><div><p>I suggest you take a look at <a href="http://isgl3d.com/" rel="nofollow">http://isgl3d.com/</a>. it has written in Objective-C and has many good features, it has OpenGl ES 2 and bullet physics support and can import 3D objects from blender or maya with POD format.</p>
+
+<p>also if you have C++ knowledge you can consider using openframeworks or cinder, 
+both are C++ and created for creative programming but can be used for some type of games.</p>
+
+<p><a href="http://libcinder.org" rel="nofollow">http://libcinder.org</a></p>
+
+<p><a href="http://openframeworks.cc" rel="nofollow">http://openframeworks.cc</a></p>
+</div><h3>Answer 4:</h3><div><p>Unity is very cool, IMO, but I just started using it for game dev.</p>
+</div><hr><h2>Question 4: Java Game Engine</h2><div><p>Does anybody know any good 2D game engines for Java? I'd like one that at least tries to keep up-to-date. I tried using JGame, but it didn't have the flexibility I required. I tried using Slick2D, but it doesn't offer an easy solution for collision detection. Instead, most people suggest you loop through all of your entities and check if you entered another object that way, but O(n) seems like a really, really horrible way to go about that when you plan on having several enemies, boundaries, bullets flying everywhere...</p>
+
+<p>Also, the creator of Slick2D hardly ever updates anymore, a lot of the tutorials in the Wiki aren't even completed. I'm not blaming him, I understand what it feels like when you don't have time, but surely there's a framework out there like what I'm looking for?</p>
+</div><h3>Answer 1:</h3><div><p>The <a href="http://www.lwjgl.org/" rel="nofollow">Lightweight Java Game Library</a> sounds very interesting. I've never used myself, but they have a <a href="http://www.lwjgl.org/projects.php" rel="nofollow">nice list of projects using their engine</a>, and from what I'm quite sure I saw in their files, the <a href="http://www.puppygames.net/revenge-of-the-titans/" rel="nofollow">Revenge of the Titans</a> game uses this lib.</p>
+
+<p>The <a href="http://slick.ninjacave.com/" rel="nofollow">Slick</a> lib also seems interesting, it works on top of LWJGL.</p>
+</div><h3>Answer 2:</h3><div><p>I only know 3 2D Java game engines: the aforementioned Slick and JGame, as well as GLib (theglibengine.wordpress.com). The last one, GLib, is fairly new and rather buggy but it handles all collision detection for you. Have you considered GameMaker(yoyogames.com)? It's rather good, has a powerful free version, and requires no programming for most games.</p>
+</div><hr><h2>Question 5: Game engine for iPhone/Android</h2><div><p>Is it possible to do cross platform game engine for iphone and android. if its how can i do this. what are all thinks i need to study to do this.</p>
+</div><h3>Answer 1:</h3><div><p><a href="http://v-play.net/" rel="nofollow">V-Play</a> (v-play.net) is a cross platform game engine based on Qt/QML  with many useful V-Play QML game components for handling multiple display resolutions &amp; aspect ratios, animations, particles, physics, path finding and more. See their <a href="http://v-play.net/doc/vplay-group.html" rel="nofollow">API reference</a> for a full list of features and components.
+V-Play also comes with ready-to-use <a href="http://v-play.net/doc/vplay-examples.html" rel="nofollow">game templates</a> for the most successful game genres like tower defense, platform games or puzzle games.</p>
+</div><h3>Answer 2:</h3><div><p>As one of the developers I will recommend Linderdaum Engine, it supports Windows, Android, MacOS <a href="http://www.linderdaum.com" rel="nofollow">http://www.linderdaum.com</a></p>
+</div><h3>Answer 3:</h3><div><p>Also there is another called "ethanon".
+"https://github.com/asantee/ethanon"</p>
+
+<p>For android,ios,windows,MacOsX,and blackberry playbook there is another called <a href="http://www.gameplay3d.org/" rel="nofollow">"gameplay3d"</a></p>
+</div><h3>Answer 4:</h3><div><p><a href="http://getmoai.com/" rel="nofollow">Moai</a> is free for smaller projects, and used by big studios as well. I run homebrew myself, but if I didn't I would probably use Moai myself as it looks very promising. They claim it ports to Mac, PC, iOS, Android and I think even Kindle Fire.</p>
+</div><h3>Answer 5:</h3><div><p>Check out Cocos2d-x. It's completely free and open-source.</p>
+
+<p>There is also <a href="http://www.appgamekit.com">http://www.appgamekit.com</a> It's something I am interested in. It supports "Basic" as well as "C++".</p>
+
+<p>I think that Marmalade is really powerful. I've messed around with it. And highly recommend it.</p>
+
+<p>If you are only targeting Android and iOS for a 2D game, I would highly recommend Cocos2d-x. It's one of the most game-complete and free framework for C++ I've come across.</p>
+
+<p>The advantage of using Cocos2d-x opposed to Marmalade is that most of the components of a game engine is written. You can prototype a game in less than a day. Cocos2d-x is also free. </p>
+
+<p>I wrote my own game engine with Marmalade and it took no longer than a week (on and off work, of course).</p>
+
+<p>The disadvantage of Cocos2d-x is obviously less variety of platform support.</p>
+
+<p>If you're willing to spend a bit of money but also need the simplicity that Cocos2d-x offers. Check out <a href="http://appgamekit.com">http://appgamekit.com</a> It's cheaper than Marmalade SDK and easier to use. It is also extensive via C++.</p>
+
+<p>Deciding on what to use mainly depends on your constraints. I am currently using Cocos2d-x for an upcoming project scheduled to be released for iOS very soon.</p>
+</div><h3>Answer 6:</h3><div><p>A few more:</p>
+
+<ul>
+<li><a href="http://www.madewithmarmalade.com" rel="nofollow">Marmalade</a></li>
+<li><a href="http://www.mosync.com" rel="nofollow">MoSync</a></li>
+<li><a href="http://www.batterypoweredgames.com/batterytech" rel="nofollow">BatteryTech</a></li>
+</ul>
+
+<p>Marmalade and MoSync can target almost every platform and are very powerful.</p>
+</div><h3>Answer 7:</h3><div><p>Just to weigh in with a biased alternative to the engines...</p>
+
+<p>We just put out a new product which is a bit lower-level than a game engine.  It's called <a href="http://www.batterypoweredgames.com/batterytech" rel="nofollow">BatteryTech</a> and it's a lightweight SDK that provides all of the Windows, iPhone, Android and Mac platform-abstraction services as the engines, but without requiring you to use an engine.  We develop custom engines (it's not that hard, really) for our games and figure others want to as well, so take a look if it seems like what you want.</p>
+</div><h3>Answer 8:</h3><div><p>Take a look at Shiva3D, it supports Windows, MacOS, Linux, iPhone, iPad, Android, Palm WebOS and Wii <a href="http://www.stonetrip.com/" rel="noreferrer">http://www.stonetrip.com/</a></p>
+</div><h3>Answer 9:</h3><div><p>Wow, that's cool. I'm glad Unity is finally starting to support Android.</p>
+
+<p>For another one, take a look at Corona (for both Android and iPhone, thought it requires a Mac)
+<a href="http://anscamobile.com/corona/" rel="nofollow">http://anscamobile.com/corona/</a></p>
+</div><h3>Answer 10:</h3><div><p>Check out <em><a href="http://www.unity3d.com" rel="noreferrer">Unity 3D</a></em></p>
+
+<p>Supports also PC, Mac, and others.</p>
+</div><hr><h2>Question 6: Java 3D Game Engine?</h2><div><p>Recently I've been getting into <a href="http://minecraft.net/">Minecraft</a>, which is a 3D game made in Java. I've made a few 2D java games, without any external libraries or IDE's or anything.</p>
+
+<p>What I'm looking for, is just some libraries. Not anything with a GUI, just libraries. Rendering *.obj files would be nice, antialiasing not a requirement.</p>
+</div><h3>Answer 1:</h3><div><p>If you just want a thin library abstracting the low level aspects, maybe have a look at <a href="http://libgdx.badlogicgames.com/" rel="noreferrer">LibGDX</a>. </p>
+
+<p>If you want an high level API or a real scenegraph, rather look at <a href="http://tinyurl.com/mpuu8or" rel="noreferrer">JogAmp's Ardor3D Continuation</a>, <a href="http://jmonkeyengine.com/" rel="noreferrer">JMonkeyEngine</a>, <a href="http://dzzd.net/" rel="noreferrer">3DzzD</a>, <a href="http://xith.org/" rel="noreferrer">Xith3D</a>, <a href="http://gouessej.wordpress.com/2012/08/01/java-3d-est-de-retour-java-3d-is-back/" rel="noreferrer">Java3D</a>, ...</p>
+</div><h3>Answer 2:</h3><div><p><a href="http://jmonkeyengine.com/" rel="noreferrer">JMonkeyEngine</a> is the best Java 3D engine I know of.</p>
+</div><h3>Answer 3:</h3><div><p>Have you looked at the <a href="http://www.lwjgl.org/" rel="noreferrer">Lightweight Java Game Library</a> yet? It sounds like what you're looking for.</p>
+</div><hr><h2>Question 7: Android NDK game engine</h2><div><p>I need android ndk 3D game engine with physics, is realy?</p>
+</div><h3>Answer 1:</h3><div><p>As one of the developers i will recommend <a href="http://www.linderdaum.com">Linderdaum Engine</a>. It is an 2D/3D open source engine in C++ for Windows and Android. Box2D is integrated in some demos (see SDK). 3D physics engine, like ODE, can be integrated relatively easy. Examples of games can be found on <a href="http://play.google.com/store/apps/developer?id=Linderdaum">Google Play</a>.</p>
+</div><hr><h2>Question 8: Flex game engine</h2><div><p>Up until today, all AS3 based game engine (flixel, pushbutton and etc) that I found from googling are mostly required external framework to do its GUI ... yes there are some samples where I could embedded withing Flex (I did it manually in a game I did) but there is no game engine that comes naturally with Flex.
+If anyone out there could point me to this kind of Flex game engine please help me.</p>
+
+<p>Thank you in advanced</p>
+</div><h3>Answer 1:</h3><div><p>You're probably never going to see a game framework that is built specifically for Flex.  Flex isn't really geared towards games, it's geared towards form based business applications.  The Flex team wouldn't write a game framework, that's not their focus.</p>
+
+<p>There are some nice things about Flex such as MXML layouts, binding, etc... but the problem you run into is that most of your CPU cycles are going to running your UI (UIComponent) instead of your game simulation.  This becomes extremely noticeable when you venture into the mobile space. </p>
+
+<p>Cheers,
+Nate</p>
+</div><h3>Answer 2:</h3><div><p>There really aren't any. Flex is hardly documented, let alone having a game engine written for it.</p>
+</div><hr><h2>Question 9: Mobile Game Engine</h2><div><p>i have a idea for a multiplayer mobile game.
+I thought about a browser game, so IOS and Android users can play it.</p>
+
+<p>But i dont get something...
+If i build the game with mostly javascript, its very attackable for hacking attacks, isnt it?
+I mean, if i do some ajax requests to the server, everyone could open the developer tool in internet explorer, set a breakpoint to the request and change some data before the request will be sent.</p>
+
+<p>For example:
+The user get some money in the game. now i want to send the new amount to the server to save it to the database. Some "bad" boys could change the money value before the request is sent and the server get the manipulated value.</p>
+
+<p>Is that correct what i am telling? or are there any security features which i could build in the game?</p>
+
+<p>So i searched for a multi platform mobile engine, but i couldn´t find the right one.
+I found <a href="http://spaceport.io" rel="nofollow">spaceport.io</a> but its not released yet.</p>
+
+<p>are there any other engines which i could use?</p>
+
+<ul>
+<li>I want to program in Javascript or C#</li>
+<li>I want to deploy the game for IOS and Android</li>
+<li>The game will be 2D (maybe later some 3D features)</li>
+<li>I need Network support for Multiplayer</li>
+</ul>
+
+<p>Oh... and i dont have much money ;-)</p>
+</div><h3>Answer 1:</h3><div><p>Yes, javascript is insecure that way, as pointed out, but so are other engines. They just take more work to hack. </p>
+
+<p>The important point here is to insure the client is only sending user input back to the server, and the server is calculating the actions based on the inputs, and returning the response.</p>
+
+<p>For instance, if the client says "I just opened a chest and it gave me 100 gold, add it to my balance" the user can easily hack it to say  "I just opened a chest and it gave me 100,000 gold, add it to my balance".</p>
+
+<p>Instead, the client would say simply "I opened the chest." And the server would say "that chest had 100 gold, it has been added to your balance."</p>
+
+<p>In addition, the server should know where the player is based on movement requests sent to the server. Rather then the client saying "I opened the chest at this location" it should just say "I opened the chest where I am" and the server should know where the user is, so they can't just spoof all the chest locations and open them all without actually moving around.</p>
+
+<p>This means also that the client shouldn't be telling the server where the player is, but simply giving movement notifications. IE "I moved one block north." "I moved one block east" Then the server can log those, act on them, and keep track of where to user is to look for hacks. If the user tries to change their location without sending all the movement requests, the server would not act on the players spoofed location. </p>
+
+<p>For speed purposes, it's ok to have the client just move the player after sending the movement request without waiting for the server response, but if the server responds with "nope, your not where you think you are, your here instead" the client responds by correcting on it's side to match the server. This is what causes games to jump around, or backwards when they lag. The client has updated the movements to remain fluid and responsive, but due to lag, the server didn't get the movement requests, or got them late so the client has to correct.</p>
+</div><h3>Answer 2:</h3><div><p>JavaScript by its very nature is insecure and is prone to all kinds of client-side hacking. Everything that happens needs to be validated server-side.</p>
+
+<blockquote>
+  <p>I want to program in Javascript or C#</p>
+</blockquote>
+
+<p>C# runs on the server. JavaScript runs on the client. There is no either/or choice here.</p>
+</div><hr><h2>Question 10: Game engine development</h2><div><p>I am going to be re-creating a game engine I created awhile back. This time I want to do it right, so I did some research into design patterns and tried to put pieces together to accomplish my goal. The idea of the game engine is simplicity, but at the same time I don't want to sacrifice usability.</p>
+
+<p>Here is a blueprint of what I am thinking, let me know if you can see any downfalls especially in expandability:</p>
+
+<pre><code>class Object
+{
+    public:
+        string name;
+}
+
+class Object3D : public Object
+{
+    public:
+        int x;
+        int y;
+        int z;
+}
+
+class Object2D : public Object
+{
+    public:
+        int x;
+        int y;
+}
+
+class cube : public Object3D
+{
+    cube() : x(0), y(0), z(0), name("cube") {}
+}
+
+class square
+{
+    ...
+}
+
+int main()
+{
+    SGL Engine(paramters);
+
+    c = cube();
+    s = square();
+
+    Engine-&gt;Lib3D-&gt;AddCube(&amp;c, "cube");
+    Engine-&gt;Lib2D-&gt;AddSquare(&amp;s, "square");
+    Engine-&gt;Input-&gt;keyboard(&amp;kbevent);
+    while(Engine-&gt;running())
+    {
+        if (x)
+            Engine-&gt;Draw("cube");
+        else
+            Engine-&gt;Draw("square");
+    }
+}
+
+void kbevent(event-paramteres)
+{
+    if (key.up)
+        engineptr-&gt;objects["cube"]-&gt;move(x,y);
+}
+</code></pre>
+
+<p>The target language is C++.</p>
+</div><h3>Answer 1:</h3><div><ol>
+<li>I'm pretty sure you should use floats instead of ints for object coordinates. With floats you can run the game at any framerate. With ints there will be problems.    </li>
+<li>Ideally, class names should start with capital letters (<code>class Cube</code>) unless you use prefixes to indicate types (<code>class CCube</code>).    </li>
+<li>(most important one) Before making object hierarchy, you should know what exactly you want to create. Imagine game level, think what objects are present, categorize them, and then try to make a hierarchy. You don't need to make a class for everything (and maybe you don't even need a complex hierarchy, maybe you can write entire thing without ever using inheritance), but you should be able to imagine final product while you're writing code. Don't introduce new concepts unless you need them. Right it looks like you have no idea of what you want to make, and now there are few classes that may be completely unsuitable for final product. </li>
+</ol>
+</div><h3>Answer 2:</h3><div><p>First of all, try not to fit a design pattern onto a problem. Read <a href="http://realtimecollisiondetection.net/blog/?p=44" rel="nofollow noreferrer">http://realtimecollisiondetection.net/blog/?p=44</a> and <a href="http://realtimecollisiondetection.net/blog/?p=81" rel="nofollow noreferrer">http://realtimecollisiondetection.net/blog/?p=81</a> regarding that kind of solutions. </p>
+
+<p>Second, It's important that you look at what kind of game(s) you will be doing when writing an engine. Therefor it is of the absolute interest to lay out what kind of data you will process and how.</p>
+
+<p>Third, when it comes to game-engine development I would recommend reading into the Bitsquid blog <a href="http://bitsquid.blogspot.com/" rel="nofollow noreferrer">http://bitsquid.blogspot.com/</a>, which are currently writing some interesting topics regarding their new engine. I would also recommend watching/reading as much as possible from Mike Acton who is the Lead Engine Architecture at Insomniac Games. He frequently recommends that you look at the data first and develop your engine around what kind of data that it will process. This one: <a href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-189-multicore-programming-primer-january-iap-2007/lecture-notes-and-video/embed17/" rel="nofollow noreferrer">http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-189-multicore-programming-primer-january-iap-2007/lecture-notes-and-video/embed17/</a> is an interesting ground-base runthrough that Mike Acton does regarding their engine development. </p>
+
+<p>The link to Mike Acton's general blog is <a href="http://www.insomniacgames.com/blogcast/blog/mike_acton" rel="nofollow noreferrer">http://www.insomniacgames.com/blogcast/blog/mike_acton</a>. I would also suggest reading through a lot of their topics since they're very good and interesting.</p>
+
+<p>Regarding your code I see no reason as to why you need your inheritance structure. Why is a Cube a 3d-object? Why does Cube inherit from anything at all? A Cube or a Box is simply 3 floats that defines the extents (or half extents) of it.  I would suggest that you have an Object that then uses a HAS-A relationship to cubes or boxes or squares. There are some topics at Insomniac regarding component-based game entities, I suggest you read it: <a href="http://www.insomniacgames.com/assets/filesadynamiccomponentarchitectureforhighperformancegameplay.pdf" rel="nofollow noreferrer">http://www.insomniacgames.com/assets/filesadynamiccomponentarchitectureforhighperformancegameplay.pdf</a> (I think that's the correct link).</p>
+
+<p>The three big lies of software development: 
+<a href="http://www.insomniacgames.com/blogcast/blog/all_categories/1500756" rel="nofollow noreferrer">http://www.insomniacgames.com/blogcast/blog/all_categories/1500756</a></p>
+</div><h3>Answer 3:</h3><div><p>First, read <a href="http://scientificninja.com/blog/write-games-not-engines" rel="noreferrer">this</a>.</p>
+
+<p>The only way to do it "right" is to turn the process upside down. Make the engine <em>after</em> you've used it in a game.</p>
+
+<p>Second. C++ isn't Java. C++ doesn't have a base <code>Object</code> class, and it doesn't need one either. Don't try to fit everything into an inheritance hierarchy. If every object is polymorphic you're crippling yourself (everything has to be heap-allocated and passed by reference or pointer to avoid slicing, for example, and it doesn't even make your code any clearer)</p>
+
+<p>An object in the world <strong>has a</strong> position. It <strong>is not one</strong>. So don't inherit <code>x, y, z</code> coordinates. Put them in a coordinate class, which can be added as a member in the classes that need it.</p>
+
+<p>String lookups are slow, and you need to handle the case when strings are not unique. (What if I accidentally add two objects with name "cube".</p>
+
+<p>Why not rely on plain references or pointers as much as possible?</p>
+
+<p>Why can't I simply do <code>Engine-&gt;Draw(c)</code> to tell the engine to draw the cube?</p>
+
+<p>But really, the most important piece of advice is, don't try to write a shrink-wrapped game engine for later use. You're going to end up exactly where you are now: needing to "rewrite it, and this time do it <em>right</em>". If you want to get something out of it that works, you need to start with its use case. Write the game first. When you've done that, you can start refactoring the code to separate the engine out. That way, you end up with an engine that <em>works</em>.</p>
+</div><h3>Answer 4:</h3><div><p>Unless you are using hash mapping, string lookup is slow. Besides once you have added the objects to the engine you should be able to do something like:</p>
+
+<pre><code>Engine-&gt;Draw();
+</code></pre>
+
+<p>Which will go through all objects added to the engine and draw them.</p>
+
+<p>The Object should have a virtual Draw function and Object2d and Object3d should override that function. Then the Engine would just loop through all the objects and call draw on them. </p>
+
+<p>The other thing is that you shouldn't need an add function for the different types. You should be able to do something like:</p>
+
+<pre><code>Engine-&gt;AddObject(&amp;c);
+Engine-&gt;AddObject(&amp;s);
+</code></pre>
+
+<p>And it will figure out what to do with it. The way you have it now you are requiring the user of the engine to know what they want to do, whereas it should be encapsulated enough that you don't need to, but open enough that it doesn't get in your way if you want to do something not supported by the Engine you can, so I would keep the Lib2d and Lib3d accessors, though purists would say the encapsulation was broken.</p>
+</div><hr><h2>Question 11: Is there any game engine in Scala?</h2><div><p>I wonder if there are any game engine written in Scala or easily accesible from Scala?</p>
+</div><h3>Answer 1:</h3><div><p><a href="http://oblong-code.blogspot.com/2008/01/so-wending-slowly-through-scala-has.html" rel="nofollow noreferrer">Here</a> is an example of someone using a library like LWJGL from Scala. That seems like your best plan -- integrate with a good Java library. The integration betweeen Scala and Java is quite strong: in order to use such a library you need to integrate in "both directions": call Java code from your Scala (to do things like drawing to the screen) and also implement Java interfaces from your Scala code (to do things like responding to events). Fortunately, Scala makes it quite easy to do both.</p>
+</div><h3>Answer 2:</h3><div><p>All the Java gaming engines are easily accessible due to easy Java integration. There are several (not sorted in any way):</p>
+
+<ul>
+<li><a href="http://www.jmonkeyengine.com/" rel="nofollow noreferrer">http://www.jmonkeyengine.com/</a></li>
+<li><a href="http://www.13thmonkey.org/~boris/jgame/" rel="nofollow noreferrer">http://www.13thmonkey.org/~boris/jgame/</a></li>
+<li><a href="https://jge.dev.java.net/" rel="nofollow noreferrer">https://jge.dev.java.net/</a></li>
+<li><a href="http://www.lwjgl.org/" rel="nofollow noreferrer">http://www.lwjgl.org/</a></li>
+<li><a href="https://sourceforge.net/projects/tjger/" rel="nofollow noreferrer">https://sourceforge.net/projects/tjger/</a></li>
+</ul>
+
+<p>A good presentation how to start coding a game in Java is <a href="http://web.archive.org/web/20100813121923/http://jsolutions.se/DukeBeanEm/" rel="nofollow noreferrer">Write a 3-D Game in the Java Programming Language in Less Than 50 Minutes</a> that applies as well.</p>
+
+<p>As <a href="http://www.codecommit.com/blog/java/interop-between-java-and-scala" rel="nofollow noreferrer">Scala has a nice Java integration</a> the ointerop should be easy. As mcherm pointed out, for <a href="http://oblong-code.blogspot.com/2008/01/so-wending-slowly-through-scala-has.html" rel="nofollow noreferrer">lwjgl this has already been done</a>. To have the nice Scala feel you could add some <a href="http://www.artima.com/weblogs/viewpost.jsp?thread=179766" rel="nofollow noreferrer">implicit conversions</a>. </p>
+</div><h3>Answer 3:</h3><div><p>For java, there is also Slick2d, which is pretty far developed and still active. Integration in Scala is easy as always.</p>
+</div><h3>Answer 4:</h3><div><p>There is a 2D game engine : <a href="https://github.com/dunnololda/scage" rel="nofollow">Scage</a></p>
+</div><h3>Answer 5:</h3><div><p>I am currently working on a 3d engine in Scala: <a href="http://www.sgine.org" rel="noreferrer">http://www.sgine.org</a></p>
+
+<p>It still has a long way to go before it's a competitor to the major Java engines out there, but good progress is being made and more help is always appreciated. :)</p>
+</div><h3>Answer 6:</h3><div><p>There is such engine in the works. Right now I am building a solid base with an easy to use math library to be optimized via compiler plugin. The math part is finished, including all the vectors, matrices, quaternions, rotations and projections for setting up the camera and ready to be plugged into opengl pretty much out of the box. A simple renderer will be done in a near feature. The compiler plugin will take time.</p>
+
+<p>Link: <a href="http://code.google.com/p/simplex3d/" rel="nofollow noreferrer">Simplex3d</a></p>
+</div><h3>Answer 7:</h3><div><p><a href="http://github.com/Villane/scalabox2d/tree/master" rel="nofollow noreferrer">ScalaBox2D</a></p>
+
+<p>It's probably not a full fledged game engine though. (I dunno I have never written large games).</p>
+</div><hr><h2>Question 12: Centrifugal Game Engine</h2><div><p>I am not entirely sure if this is the correct stack exchange, so if anyone thinks that there is a better place for it, say so in the comments:</p>
+
+<p>Are there any game engines which would allow me to have a space station where illusory gravity is generated through centripetal force?  Normal gravity in an engine such as unity would not work, as there are special physical properties that this rotation method has as side effects.  For example, if you run in one direction, "gravity" will exert less force on you.  A bullet might never actually fall if it is shot at the right speed in the right direction.  The Coriolis effect would mean that falling objects would curve.  I could, of course, actually have a space station rotating in Unity, but this seems like it might make the game CPU bottlenecked.   Any suggestions?</p>
+</div><hr><h2>Question 13: Flash game engine</h2><div><p>I need simple game engine with pixel-perfect collision detection, camera component with following function, network and particle components would be desirable.
+Anyone knows whether the engine right under these requirements?</p>
+</div><h3>Answer 1:</h3><div><p>There's <a href="https://gamedev.stackexchange.com/questions/6993/flash-game-engine">this</a> question on gamedev stackexchange. Unfortunately it only got 2 answers.</p>
+
+<p>However, there's:<br>
+<a href="http://flixel.org/" rel="nofollow noreferrer">Flixel</a><br>
+<a href="http://pushbuttonengine.com/" rel="nofollow noreferrer">Pushbutton</a><br>
+<a href="http://flashpunk.net/" rel="nofollow noreferrer">Flashpunk</a></p>
+
+<p><a href="http://flixel.org/forums/index.php?topic=576.0;wap2" rel="nofollow noreferrer">A comparison of Flixel and Flashpunk.</a></p>
+</div><h3>Answer 2:</h3><div><p><a href="http://flashpunk.org" rel="nofollow">FlashPunk</a> is able to do exactly what you want. Furthermore, the <a href="http://flashpunk.net/forums/" rel="nofollow">FlashPunk Community</a> is lovely awesome and really helpful.</p>
+
+<p>Pixelmask is easily implementable in FlashPunk, all you have to do is pass a BitmapData to the <code>mask</code> property of an <code>Entity</code> and the rest will be handled for you. More information in the docs: <a href="http://flashpunk.net/docs/net/flashpunk/masks/Pixelmask.html" rel="nofollow">net.flashpunk.masks.Pixelmask</a>.</p>
+
+<p>For camera, following would be translated as this in your entity:</p>
+
+<pre><code>override public function update():void
+{
+    super.update();
+    FP.camera.x = x;
+    FP.camera.y = y;
+}
+</code></pre>
+
+<p>And if you want easing and that stuff, you can use FlashPunk <code>Tweens</code> or take a look at the view class from the <a href="http://flashpunk.net/forums/index.php?topic=738.0" rel="nofollow">Advanced Platform Engine</a>.</p>
+
+<p>Particle Emitters are supported by default as well. Here you have a <a href="http://flashpunk.net/forums/index.php?topic=1310.0" rel="nofollow">comprehensive tutorial about FlashPunk Emitters</a>.</p>
+
+<p>About Network… I'm sad that there's no included network system on FlashPunk. Luckily, there are a lot of Network systems for AS3 which you can adapt very easily for FlashPunk. <a href="http://www.smartfoxserver.com/2X/" rel="nofollow">SmartFoxServer</a> and <a href="http://playerio.com/" rel="nofollow">Player.IO</a> are good examples of AS3 Network systems.</p>
+</div><h3>Answer 3:</h3><div><p>I recommend either <a href="http://flixel.org/" rel="nofollow">Flixel</a> or <a href="http://flashpunk.net/" rel="nofollow">Flashpunk</a>. The <a href="http://flashgamedojo.com/go/" rel="nofollow">Flash Game Dojo</a> is a great place to find out about both of these libraries...</p>
+</div><hr><h2>Question 14: What is a good game engine that uses Lua?</h2><div><p>I know <a href="http://love2d.org/" rel="noreferrer" title="Love2D">Love2D</a> and <a href="https://coronalabs.com/" rel="noreferrer">Corona SDK</a> (for mobile devices). Is there any other game engines that use Lua you recommend?</p>
+</div><h3>Answer 1:</h3><div><h2><strong>Game engines that use Lua</strong></h2>
+<p><strong>Free unless noted</strong></p>
+<ul>
+<li><a href="https://www.2dengine.com/" rel="nofollow noreferrer">Agen</a> (<strong>2D</strong> Lua; Windows)</li>
+<li><a href="https://github.com/ianmaclarty/amulet" rel="nofollow noreferrer">Amulet</a> (<strong>2D</strong> Lua; Window, Linux, Mac, HTML5, iOS)</li>
+<li><a href="http://www.cafu.de/" rel="nofollow noreferrer">Cafu 3D</a> (<strong>3D</strong> C++/Lua)</li>
+<li><a href="https://www.cocos2d-x.org/" rel="nofollow noreferrer">Cocos2d-x</a> (<strong>2D</strong> C++/Lua/JS; Windows, Linux, Mac, iOS, Android, BlackBerry)</li>
+<li><a href="https://codea.io/" rel="nofollow noreferrer">Codea</a> (<strong>2D&amp;3D</strong> Lua; iOS (Editor is iOs app); <strong>$14.99 USD</strong>)</li>
+<li><a href="http://www.crytek.com/cryengine" rel="nofollow noreferrer">Cryengine by Crytek</a> (<strong>3D</strong> C++/Lua; Windows, Mac)</li>
+<li><a href="http://defold.com" rel="nofollow noreferrer">Defold</a> (<strong>2D</strong> Lua; Windows, Linux, Mac, iOS, Android, Web, Switch)</li>
+<li><a href="https://github.com/gogoprog/gengine" rel="nofollow noreferrer">gengine</a> (<strong>2D</strong> Lua; Windows, Linux, HTML5)</li>
+<li><a href="http://irrlicht.sourceforge.net/" rel="nofollow noreferrer">Irrlicht</a> (<strong>3D</strong> C++/.NET/Lua; Windows, Linux, Mac)</li>
+<li><a href="http://leadwerks.com/werkspace/index.php?/page/products/_/tools/leadwerks-engine-r3" rel="nofollow noreferrer">Leadwerks</a> (<strong>3D</strong> C++/C#/Delphi/BlitzMax/Lua; Windows; <strong>$199.95 USD</strong>)</li>
+<li><a href="https://love2d.org/" rel="nofollow noreferrer">LÖVE</a> (<strong>2D</strong> Lua; Windows, Linux, Mac, Android, iOS)</li>
+<li><a href="https://github.com/moai/moai-dev" rel="nofollow noreferrer">MOAI</a> (<strong>2D</strong> C++/Lua; Windows, Linux, Mac, iOS, Android, Google Chrome (Native Client))</li>
+<li><a href="https://solar2d.com/" rel="nofollow noreferrer">Solar2D (was Corona)</a> (<strong>2D</strong> Lua; Windows, Mac, iOS, Android)</li>
+<li><a href="http://springrts.com/" rel="nofollow noreferrer">Spring RTS Engine</a> (<strong>3D</strong> C++/Lua; Linux, Windows, Mac)</li>
+<li><a href="https://github.com/turanszkij/WickedEngine" rel="nofollow noreferrer">Wicked Engine</a> (<strong>3D</strong> C++/Lua; Linux, Windows 10, Windows Phone, XBox One)</li>
+</ul>
+<p><strong>Bindings:</strong></p>
+<ul>
+<li><a href="https://www.raylib.com/" rel="nofollow noreferrer">Raylib</a> via <a href="https://github.com/RobLoach/raylib-lua-sol" rel="nofollow noreferrer">raylib-lua-sol</a> (<strong>2D&amp;3D</strong> C++/Lua/Others; Windows, Linux, Mac, Android, Web, Other Ports)</li>
+<li><a href="https://www.libsdl.org/" rel="nofollow noreferrer">SDL2</a> via <a href="https://github.com/Tangent128/luasdl2" rel="nofollow noreferrer">luasdl2</a> (<strong>2D&amp;3D</strong> C++/Lua/Others; Windows, Linux, Mac, Android, Console Ports)</li>
+</ul>
+<p><strong>Fantasy Consoles:</strong></p>
+<p><em>Editor and games run in an emulated computer system</em></p>
+<ul>
+<li><a href="https://www.lexaloffle.com/pico-8.php" rel="nofollow noreferrer">PICO-8</a> (<strong>2D</strong> Lua; Windows, Linux, Mac, Raspberry Pi, Web Player <strong>$14.99 USD</strong>)</li>
+<li><a href="https://tic80.com/" rel="nofollow noreferrer">TIC-80</a> (<strong>2D</strong> Lua; Windows, Linux, Mac, Web)</li>
+</ul>
+<p><strong>Inactive/Discontinued:</strong></p>
+<ul>
+<li><a href="http://www.bajaengine.com/" rel="nofollow noreferrer">Baja Engine</a> (<strong>3D</strong> C++/Lua; Windows, Mac, <em>No Release since Dec 2008</em>)</li>
+<li><a href="https://github.com/JonasT/blitwizard" rel="nofollow noreferrer">Blitwizard</a> (<strong>2D</strong> Lua; Windows, Linux, Mac, <em>Development stopped in May 2014</em>)</li>
+<li><a href="https://github.com/kidanger/Drystal" rel="nofollow noreferrer">Drystal</a> (<strong>2D</strong> Lua; Linux, HTML5)</li>
+<li><a href="http://egsl.retrogamecoding.org" rel="nofollow noreferrer">EGSL</a> (<strong>2D</strong> Pascal/Lua; Windows, Linux, Mac, Haiku)</li>
+<li><a href="http://glint3dengine.blogspot.com/" rel="nofollow noreferrer">Glint 3d Engine</a> (<strong>3D</strong> Lua, <em>Development stopped in Nov 2011</em>)</li>
+<li><a href="http://leetless.de/grail.html" rel="nofollow noreferrer">Grail Adventure Game Engine</a> (<strong>2D</strong> C++/Lua; Windows, Linux, Mac (SDL))</li>
+<li><a href="https://github.com/rxi/juno" rel="nofollow noreferrer">Juno</a> (<strong>2D</strong> Lua; Windows, Linux, Mac, <em>last commit on Friday the 13th, May 2016</em>)</li>
+<li><a href="http://lavgine.pl/" rel="nofollow noreferrer">Lavgine</a> (<strong>2.5D</strong> C++/Lua, Windows)</li>
+<li><a href="http://www.luxinia.de/" rel="nofollow noreferrer">Luxinia</a> (<strong>3D</strong> C/Lua; Windows, <em>Development stopped in Dec 2018</em>)</li>
+<li><a href="http://polycode.org/features/" rel="nofollow noreferrer">Polycode</a> (<strong>2D&amp;3D</strong> C++/Lua; Windows, Linux, Mac)</li>
+</ul>
+</div><h3>Answer 2:</h3><div><p>I can second the previous posters enthusiasm for the Gideros Lua game engine, whilst focusing currently on Mobile (iOS and Android - Windows phone 8 is in the works), desktop support for Mac, PC (possibly Linux) is also planned for the not too distant future.</p>
+
+<p>Google for "Gideros Mobile"</p>
+</div><h3>Answer 3:</h3><div><p>There's our IDE / engine called <em>Codea</em>. </p>
+
+<p>The runtime is iOS only, but it's open source. The development environment is iPad only at the moment.</p>
+
+<ul>
+<li><a href="http://itunes.apple.com/us/app/codea/id439571171?mt=8" rel="noreferrer">Codea App</a></li>
+<li><a href="http://github.com/TwoLivesLeft/Codea-Runtime" rel="noreferrer">Codea Runtime Library</a></li>
+</ul>
+</div><h3>Answer 4:</h3><div><p>A few more:</p>
+
+<ul>
+<li><a href="http://www.blitwizard.de" rel="nofollow">blitwizard</a></li>
+<li><a href="http://github.com/antirez/load81" rel="nofollow">load81</a></li>
+<li><a href="http://www.egsl.retrogamecoding.org" rel="nofollow">egsl</a></li>
+</ul>
+</div><h3>Answer 5:</h3><div><p>Heroes of Might and Magic V used modified <a href="http://en.wikipedia.org/wiki/Silent_Storm_engine" rel="noreferrer">Silent Storm engine</a>. I think you can find many good engines listed in wikipedia: <a href="http://en.wikipedia.org/wiki/Category:Lua-scriptable_game_engines" rel="noreferrer">Lua-scriptable game engines</a> </p>
+</div><h3>Answer 6:</h3><div><p>World of Warcraft's engine seems all right, and it uses Lua.  :)</p>
+</div><hr><h2>Question 15: Game Engine Runtime Decompression</h2><div><p>I have been trying to find out how game engines deal with asset compression. Obviously they compress all the assets when building the game. But how do they decompress them during runtime. The only thing I could think of was decompressing into memory, but that must be very memory intensive. If they decompressed onto the HDD a folder would be filling up while the game is playing? This doesn't sound very efficient.</p>
+
+<p>Using a library like zlib (or any other) with c++,  how is this runtime decompression done?</p>
+
+<p>David</p>
+</div><h3>Answer 1:</h3><div><p>It's kinda like this, you have a game with so much data that it won't fit in a reasonable amount of memory, so you can't load all of them at once in memory, so you define some buffers for the data that you use as caches.</p>
+
+<p>Now memory in order of speed from lowest to highest is as such:</p>
+
+<ul>
+<li>DVD</li>
+<li>Hard Drive</li>
+<li>RAM</li>
+</ul>
+
+<p>Ideally you won't have to stream data from the DVD, but it's something to take into account if you have to make a console game for instance. So for each of these available storage spaces you define a buffer to be used as a cache.</p>
+
+<p>When the game engine decides that it might need an asset, it should first look in the fastest cache to see if the asset is already loaded. If it is then you're in luck, you can immediately send it to be drawn. If it's not in the fastest cache, you have to go down a level to the hard drive cache. This is a file where you keep assets that were already decompressed and ready to be loaded into memory. If the fastest cache isn't fully occupied then you can just start loading the data and use it when it's ready. If there isn't enough space, then you will have to unload other assets first, I would recommend removing the least recently used assets until you have enough space to load the new one.</p>
+
+<p>Now if the hard drive cache doesn't have the data loaded then you have to go down one more level to the archive, you will want to use the zip format to compress it because the zip file format doesn't force you to decompress the entire archive to have access to just one file so all you have to do is find the offset of said file within the archive and decompress it into the hard drive cache. Again if the cache is full you'd have to unload some other assets first, again I'd recommend removing the least recently used but you can try other algorithms as well if you think it will improve performance.</p>
+
+<p>John Karmack had a keynote at QuakeCon 2011 where he explained this whole process maybe a little bit better than I can in a post (among other awesome things), you can find it <a href="https://www.youtube.com/watch?v=4zgYG-_ha28" rel="noreferrer">here</a></p>
+</div><h3>Answer 2:</h3><div><p>Compression can happen in many ways on many different layers, and when, where and how its used are totally dependent what its aims &amp; goals are (compression isn't always about saving space on disk).</p>
+
+<p>Very basically, on a top level, all assets would/could be compressed into a bulk archive (this speeds up reads, as there is less to read from the HDD, but you are sacrificing processing power for this, as apposed to using DMA to read uncompressed files, which doesn't use the CPU at all), read back is almost always done memory to memory, reading back to the HDD would destroy performance and cause a host of problems (and in some cases would be impossible, such as on older generation consoles).</p>
+
+<p>A second tier can/could be done on the asset itself, as an example, textures can be compressed in MANY different ways, but mainly block compression (S3TC/DXTn, BCn) is used these days as its decompression is supported in hardware (or emulated by the driver), so when once its read for the archive/disk, no further decompression needs to be done.</p>
+
+<p>The compression strategies also vary per platform, especially on consoles which are very sensitive to memory layout, have limited resources and have small caches etc.</p>
+
+<blockquote>
+  <p>Using a library like zlib (or any other) with c++, how is this runtime decompression done?</p>
+</blockquote>
+
+<p>generally you want to use memory mapped files of the archive and decompress directly to RAM, a good example of a AAA archive system that is well documented that does this is the <a href="http://en.wikipedia.org/wiki/MPQ" rel="nofollow">MPQ format</a> (used by Blizzard Entertainment, more details <a href="http://www.zezula.net/en/mpq/mpqformat.html" rel="nofollow">here</a>), it uses a variety of compression algos, such as deflate for Diablo I, zlib for Warcraft III, bzip2 in World of Warcraft, and they recently added LZ and sparse compression for their newer games like SCII.</p>
+
+<p>Jan Wassenberg' thesis (<code>Optimizing File Accesses via Ordering and Caching</code>) has a good breakdown of file management, that may also be of interest.</p>
+</div><h3>Answer 3:</h3><div><blockquote>
+  <p>game engines deal with asset compression</p>
+</blockquote>
+
+<p>There are different game engine assets such as geometry models (triangulation/ polygonal model), textures, etc. Each asset class has a different compression strategy. Can you be more specific ?</p>
+
+<p>For model compression, <a href="http://www.cs.unc.edu/~isenburg/dissertation.pdf" rel="nofollow">Check this</a></p>
+</div><hr><h2>Question 16: Exemplary 2D game engine</h2><div><p>Is anyone here able to point me to a simple and well designed C++ 2D open source game engine? The genre is less important, I wish to learn by example. I wouldn't want anything particularly complex as I'm interested in learning general concepts, rather than getting into the nitty-gritty of the engine implementation.</p>
+</div><h3>Answer 1:</h3><div><p>Personally I learned a lot, looking through the source code of <a href="http://www.frogatto.com/" rel="nofollow" title="Frogatto">Frogatto</a>, even the source code can be viewed only <a href="http://www.frogatto.com/viewvc.cgi/frogatto/trunk/src/" rel="nofollow" title="Frogatto source code viewer">here</a>.</p>
+
+<p>It is of course a more complex game, but there is much to learn regarding software/game architecture and design.</p>
+</div><h3>Answer 2:</h3><div><p>Have a look at SuperTux, it's a nice little platformer game inspired by Mario, written in C++.
+There is a builtin level editor, too.   </p>
+</div><h3>Answer 3:</h3><div><p>If I were you I'd look into <a href="http://clanlib.org/wiki/Main_Page" rel="nofollow">ClanLib</a> - it is open source, cross platform, and the source packages contain 50 or so easy-to-follow examples, from simple image rendering, to a fully working server-client <strong>dice wars</strong> implementation. </p>
+
+<p>And if you're eager to get started it's easy to set up with Visual Express, so you can play with in in no time.</p>
+
+<p>Also: <a href="http://en.wikipedia.org/wiki/List_of_game_engines" rel="nofollow">here</a> are some others if you want to give them a try.</p>
+</div><hr><h2>Question 17: Game engine development question</h2><div><p>I am thinking of making a simple game engine for my course final year project. I want it to be modular and expandable so that I can add new parts if I have time. For example I would make a graphics engine that would be completely independent of the other systems, once that was finished I could add a physics engine etc.
+I would also want to make a tool set to go with this engine. For the tools I would like to use C# but I am not sure about the libraries. My question is, if I want a C# GUI program, can I reference a library written in C++? Also would there be any performance problems etc. if I made some of the libraries in C# but wanted to use them from a C++ game.</p>
+
+<p>I would like to avoid C++ as much as possible, my experiences have shown that development time can be a lot higher for a project over that of using C# or Java etc. My graphics development would be in OpenGL, this is all I have been taught. We have only done this in C++ but I have seen that projects such as <a href="http://www.codeproject.com/KB/openGL/sharpgl.aspx" rel="nofollow noreferrer">SharpGL</a> allow for the development with C#. Is there any performance issues with this. I am not looking for a blindingly fast, top graphics game. It will most likely be something simple to show my engine working. My engine probably won't be that great either as I only have a year and am working on my own.</p>
+
+<p>Any advice on this would be appreciated. I am still really in the planning stages so it wouldn't be too much work to completely change what I want to do. I would just like to preempt any major problems I might have.</p>
+
+<p>Thanks</p>
+</div><h3>Answer 1:</h3><div><p>Make sure your scope is feasible.  </p>
+
+<p>As a teenager I went through the build-my-own-engine phase, a few years later I realized I would have gotten a whole lot more done if I had just used pygame and pyopengl and not wasted the effort.</p>
+
+<p>Check out the forums at gamedev.net.</p>
+</div><h3>Answer 2:</h3><div><p>Why do you need <em>any</em> C++ code?</p>
+
+<p>There are already several wrapper libraries exposing OpenGL or DirectX to .NET, such as <a href="http://slimdx.org/" rel="nofollow noreferrer">SlimDX</a> (which, as the name implies, is a much thinner, more light-weight wrapper than something like XNA)</p>
+
+<p>If you're more comfortable with C#, there's no reason why you couldn't write your entire game in that.</p>
+
+<p>Performance generally won't be a problem. In most cases, the performance of C# code is comparable to C++. Sometimes it's faster, sometimes it's slower. But there are few cases where C# isn't <em>fast enough</em>. (However, there is a significant performance cost to interfacing between native and .NET code -- so doing that too often will hurt performance -- so the trick is, if you use native code at all, to have sufficiently big native operations, so the jump to/from .NET isn't done <em>too</em> often)</p>
+
+<p>Apart from that, a word of advice: <a href="http://scientificninja.com/advice/write-games-not-engines" rel="nofollow noreferrer">Don't bother writing an "engine"</a>.
+You'll be wasting your time producing a big monolithic chunk of code which, ultimately, doesn't work, because it was never tested against the requirements of an <em>actual</em> game, only what you <em>thought</em> your future game would need.</p>
+
+<p>If you want to experiment with game development, make a <em>game</em>. And then, by all means, refactor it and clean it up and try to extract reusable parts of the code. But if the code hasn't already been used in a game, you won't be able to use it to build a game in the future either.</p>
+
+<p>The engines used in commercial games are just this, code extracted from previous games, code which has been tested, and which <em>works</em>.
+By contrast, hobbyist engines pretty much always end up taking 2+ years of the developer's time, without ever offering anything usable.</p>
+
+<p>The whole concept of a  "game engine" is flawed. In <em>every</em> other field of software development, you'd frown at the idea of <em>one</em> vaguely-defined component doing basically "everything I need to make my product". You'd be especially suspicious of the idea that it is a separate entity that can be developed <em>separate</em> from the actual product it's supposed to support.</p>
+
+<p>Only in game development, which is by and large stuck in 80's methodologies, is it a common approach. Even though it doesn't actually work.</p>
+
+<p>If this is a school project, I'm sure whoever is supposed to grade it will appreciate it if you apply common good software practices to the field. Just because many newcomers to game development don't do that (and prefer to stick to some kind of myth about "engines"), there's no reason why you shouldn't do better.</p>
+</div><h3>Answer 3:</h3><div><p>When creating a graphics engine (I'll only really speak about graphics as that is my area of expertise), these are a few of the choices you need to make EARLY in the project:</p>
+
+<p>1) Is it an indoor and/or outdoor engine?<br>
+2) What sort of visibility system are you going to use?<br>
+3) Forward or deferred renderer?<br>
+4) How will you have animation hierarchies?<br>
+5) Dynamic or static lighting?<br>
+6) How are you going to handle transparency?<br>
+7) How will you handle a 2D overlay?<br>
+8) What mesh formats will you use?  Roll your own?<br></p>
+
+<p>Bear in mind you need a GOOD solid vector/matrix library and preferably a full maths library that will help with things from eulers to quaternions to axis-aligned bounding boxes.</p>
+
+<p>Do a lot of research as well.  Try to find out what the potential problems you are going to face are.  Remember things like changing a texture or a shader can have HUGE impacts on your pipelining.  You need to minimise these as much as possible.</p>
+
+<p>Bear in mind that getting a rotating bump mapped mesh on the screen is simple by comparison to getting an engine running.  Don't let this put you off.  It should be no problem to write a fairly simple game rendering engine in a matter of months :)</p>
+
+<p>Also ... find communities specific to this area.  You will get a lot of good (though non-OpenGL-centric) information off <a href="http://discussms.hosting.lsoft.com/SCRIPTS/WA-MSD.EXE?A0=DIRECTXDEV" rel="nofollow noreferrer">DirectXDev</a>.  There is a fair bit of general game development algorithm information available at <a href="https://lists.sourceforge.net/lists/listinfo/gdalgorithms-list" rel="nofollow noreferrer">GDAlgorithms</a>.  There is also an OpenGL specific mailing list <a href="http://tech.groups.yahoo.com/group/opengl-gamedev-l/" rel="nofollow noreferrer">here</a>.</p>
+
+<p>Its worth noting that DirectXDev and GDAlgorithms, at least (I don't know so much on the GL mailing list) are populated by some VERY experienced 3D engine and game developers.  Don't post up lots of "beginner" questions as this does tend to breed contempt among the members.  Though the odd query or 2 at whatever level (beginner to advanced) will get amazing answers.</p>
+
+<p>Good luck!  I wish I'd had the chance to do this at University.  I might not have gone off and joined the games industry and enjoyed an extra year of sleeping late ;) hehehe</p>
+</div><h3>Answer 4:</h3><div><p>Whilst it's certainly do-able to bridge between C++ and C# (Via managed C++ is a good way to go if the interface is complex, P/Invoke for a very simple one), for tool&lt;->engine communication I might suggest instead a network based interface. This is ideal for a high-ish level interface, such as you might want for a level editor/model viewer or such. An actual object modeller is not such a good target. What tools do you envision?</p>
+
+<p>If you do it this way you gain the ability to connect to remote instances of the engine, or multiple instances, or even instances running on different hardware platforms. It'll also teach you a bit about sockets if you don't know them already. </p>
+</div><h3>Answer 5:</h3><div><p>If you can pull this off even under a relaxed set of goals, you're set for a great project. First, you need to get a grasp of scope:</p>
+
+<ul>
+<li>How long do you have to work on the project?</li>
+<li>How many people are working on the project?</li>
+<li>If you can only create one "piece of the pie" on your own, which one would you pick? Use this to establish a working plan to make sure if you don't get as far as you'd like, you still have enough to make the work show as a great project.</li>
+</ul>
+
+<p>A game engine is a big development task. A game engine with a toolchain is an enormous development task. In a lot of ways, choosing a smaller but more challenging task is preferable because it shows higher-level thinking about problem solving, which is greatly preferred by academics - double that if you are CS and not [Area of] Engineering. Since you are working in managed languages, things you may want to consider are:</p>
+
+<ul>
+<li>Expressing gameplay logic (rules of the game) in a clean manner so as to provide an efficient and reliable path from designer->developer->tester. If you want, this could absolutely include the manner in which you describe the rules (Custom editor? Code API? DSL?)</li>
+<li>Game AI has no shortage of extremely challenging problems.</li>
+<li>Physics and graphics are interesting and I believe managed languages will eventually be used in these areas, but you may find yourself a bit more limited in your ability to solve these problems. If I were going to work in this area now, I would be trying to answer: "If I could use a managed language for writing [graphics|physics] code without hurting performance, what kinds of [language|runtime] features make the most difference in improving the expressiveness, correctness, maintainability, and reliability of the resulting programs." This goes <em>way</em> past simply having garbage collection and pointer safety.</li>
+</ul>
+</div><h3>Answer 6:</h3><div><p>Sounds to me like you have a pretty good plan for your project. (I get your point about XNA in your comment to @Meeh)</p>
+
+<p>You can interop with C++ via P/Invoke directly or COM, you could also I guess come up with some SOA way of doing it, but to be honest as yucky as this sounds I would be inclined to target COM as your API lever of choice...why? because then you open up your API to a lot of common client language's not just C# and VB.NET you will also get Delphi, VBA, Powerbuilder etc.</p>
+
+<p>Performance should not be a problem as the API entry points are just to kick of the work and transport data structures, the real work is done in your library in native code, so don't worry too much about the perf. ATL will be your friend with creating COM Classes that provide entry to your Library.</p>
+</div><h3>Answer 7:</h3><div><p>You should look into <a href="http://en.wikipedia.org/wiki/Microsoft_XNA" rel="nofollow noreferrer">XNA</a>. It performs quite well, and from what I've heard, is quite easy to work with.</p>
+
+<p>About referencing C++ code from C#: It's perfectly doable, though it will take some effort from your side to get it right. C++/CLI can work as an intermediate wrapper or you can use P/Invoke. Just remember that C++ is unmanaged and that you will need to do some manual garbage collection, which can be somewhat icky in a managed environment like .Net. Perfomance in the C++ -> C# bridge is okayish, but I'm unsure how it will perform if you need do 100.000 calls to a math-library each second. I guess a small test would be good.. I'll see if I get time to do this later today, though I somewhat doubt it :)</p>
+</div><hr><h2>Question 18: Allocators for game engine</h2><div><p>I am currently coding a memory allocation system for a game engine, and I was wondering if there were any experienced developers out there who could help with some advice about what allocator structures are useful.</p>
+
+<p>I know that sounds a bit worrying to some people, and so I think I need to justify my position a little bit. I have read the answers <a href="https://stackoverflow.com/questions/1987043/game-engine-development">here</a> and <a href="https://stackoverflow.com/questions/3411551/game-engine-development">here</a> (and also the blogs they point to <a href="https://stackoverflow.com/questions/1987043/game-engine-development">here</a>, <a href="http://realtimecollisiondetection.net/blog/?p=44" rel="nofollow noreferrer">here</a> and <a href="http://realtimecollisiondetection.net/blog/?p=81" rel="nofollow noreferrer">here</a>). But see, I have tried the "make a game first, over and over, and then the code you reuse is your 'engine'" thing, and it didn't really work for me. I found that I actually got bogged down in those things I was doing again and again (probably didn't reuse my code very well) and didn't get very far in any game.</p>
+
+<p>So, I decided I would code these things that I was reusing over and over again once more... do it once and set it aside.</p>
+
+<p>I really found myself out of my league, so I bought a few books. Game Engine Architecture by Jason Gregory (GEA) is really good, btw, but I also have Game Coding Complete (McShaffry) and Programming Game AI by Example (Buckland). GEA has some really good ideas about high performance allocators, and that really interested me, so I thought I would give it a go.</p>
+
+<p>I have coded a stack-based allocator, and am nearly finished a pool-based allocator. Both have the capacity to be memory aligned and can be assigned to work with different memory budgets (i.e. any allocator could for example use "retail" memory or "development" memory etc). I have found just creating these components such a rewarding thing in terms of my programming skills/interest level.</p>
+
+<p>I am wondering if there are any developers out there who would be willing to recommend any other allocator structures that are useful or come up regularly in game development. ? Or if there are any developers who have never used anything else in their entire careers?</p>
+
+<p>Again justifying my question (I can nearly hear people whispering "Just make your own game and see what structures you need...", but...) Game Engine Architecture has been such a great resource for me because the author is willing and unashamed to say "hey, this is what the industry mostly sorta does". And it would save me a lot of time writing a whole heap of games and figuring it out what is useful, if somebody can do some 'experience-reuse' and say 'think about this structure'.</p>
+</div><h3>Answer 1:</h3><div><p>Seriously, the biggest obstacle to writing a game is thinking you need to design all kinds of fancy library code first. Most games need this kind of thing much less than any other type of application. Games almost always deal with a very finite number of data/objects determined mostly by the deverlopers and only slightly affected by the players' actions (massively multiplayer games being the only possible exception to this rule) and as such you can even get by making static arrays for all the data if you're slightly crazy.</p>
+
+<p>Unless you're developing for PlayStation or other console junk with a broken standard library, you should not even think about writing your own allocator. It's completely orthogonal to game development and a waste of your time. This is 2011 not 1992 and you're not dealing with DOS systems with 2-4MB of ram where you have to manage your own data caching and discarding. Let the virtual memory system do the work for you and spend your time making a game, not half of an operating system.</p>
+</div><h3>Answer 2:</h3><div><p>Well, honestly, the ones I've been using most are <code>Pool&lt;T&gt;</code> for short-lived objects and pre-allocated heap as a replacement over C++ default allocator.</p>
+
+<p>But once again, develop <em>what you need when you need it</em>.</p>
+</div><hr><h2>Question 19: Qt4 2D Game Engine</h2><div><p>Are there any 2-D Game Engines for Qt4 out there? I want a game engine that has collision detection, and runs smoothly with lots of sprites on screen.</p>
+</div><h3>Answer 1:</h3><div><p><a href="http://v-play.net/" rel="noreferrer">V-Play</a> (v-play.net) is a cross-platform game engine based on Qt/QML  with many useful V-Play QML game components for handling multiple display resolutions &amp; aspect ratios, animations, particles, physics, multi-touch, gestures, path finding and more. <a href="http://v-play.net/doc/vplay-group.html" rel="noreferrer">API reference</a>
+The engine core is written in native C++, combined with the custom renderer, the games reach a solid performance of 60fps across all devices.
+If you are curious about the games made with V-Play, here is a quick selection of them:</p>
+
+<ul>
+<li><a href="http://games.v-play.net/squaby/" rel="noreferrer">Squaby</a>: a tower defense game</li>
+<li><a href="http://games.v-play.net/chickenoutbreak/" rel="noreferrer">Chicken Outbreak</a>: a platformer like Doodle Jump</li>
+<li><a href="https://play.google.com/store/apps/details?id=at.impossibru.blockoban" rel="noreferrer">Blockoban</a>: puzzle game</li>
+<li><a href="https://play.google.com/store/apps/details?id=xom.xxmassdeveloper.CrazyElephant" rel="noreferrer">Crazy Elephant</a>: a game similar to Angry Birds</li>
+<li><a href="https://play.google.com/store/apps/details?id=com.xxmassdeveloper.SnowballMania" rel="noreferrer">Snowball Mania</a>: multiplayer action game</li>
+<li><a href="https://play.google.com/store/apps/details?id=at.fhooe.mc.blitzkopf" rel="noreferrer">Blitzkopf</a>: brain game</li>
+</ul>
+</div><h3>Answer 2:</h3><div><p>QGraphicsView is most likely the best choice if you want to put many items on the canvas. If your game contains not too much objects (say, less than 500), you could also consider QML aka Qt Quick (which will be released with Qt 4.7). Also, QGraphicsView has big support in the Qt developer community, so many components are already available (e.g. in libkdegames).</p>
+</div><h3>Answer 3:</h3><div><p>Pixel level collision detection is not too hard to do in 2D games. First off, create a memory buffer the same size as the display. Then, as each sprite is drawn, draw a monochrome version into the memory buffer where the value written is an ID of some sort. To test for collision, check the (x,y) position in the memory buffer for a non-zero value. The value read is the ID of the object. </p>
+</div><h3>Answer 4:</h3><div><p>It's not a pure-Qt solution, but <a href="http://gluon.tuxfamily.org/" rel="nofollow noreferrer">Gluon</a> is a game development library based on Qt and some of the KDE game libraries</p>
+</div><h3>Answer 5:</h3><div><p>The <a href="http://doc.qt.nokia.com/4.6/graphicsview.html" rel="noreferrer">QT Graphics view </a> has collision detection build right in. You don't need a framework for that.</p>
+
+<p><em>"Graphics View provides a surface for managing and interacting with a large number of custom-made 2D graphical items"</em></p>
+</div><hr><h2>Question 20: Game Engine Scripting Languages</h2><div><p>I am trying to build out a useful 3d game engine out of the Ogre3d rendering engine for mocking up some of the ideas i have come up with and have come to a bit of a crossroads. There are a number of scripting languages that are available and i was wondering if there were one or two that were vetted and had a proper following. </p>
+
+<p>LUA and Squirrel seem to be the more vetted, but im open to any and all. </p>
+
+<p>Optimally it would be best if there were a compiled form for the language for distribution and ease of loading.</p>
+</div><h3>Answer 1:</h3><div><p>Since it's a C++ library, I would suggest either JavaScript or Squirrel, the latter being my personal favorite of the two for being even closer to C++, in particular to how it handles tables/structs and classes. It would be the easiest to get used to for a C++ coder because of all the similarities.</p>
+
+<p>However, if you go with JavaScript and find an HTML5 version of Ogre3D, you should be able to port your game code directly into the web version with minimal (if any) changes necessary.</p>
+
+<p>Both of these are a good choice, and both have their pros and cons, but both would definitely be the easiest to learn since you're likely already working in C++. If you're working with Java, the same may hold true, and if it's Game Maker, you wouldn't need either one unless you're trying to make an executable that people wouldn't need Game Maker itself to run, in which case, good luck finding an extension to run either of these.</p>
+</div><h3>Answer 2:</h3><div><p>python is also nice because it has actual OGRE bindings, just in case you need to modify something lower-level on the fly.  I don't know of any equivalent bindings for Lua.</p>
+</div><h3>Answer 3:</h3><div><p>One more vote for Lua. Small, fast, easy to integrate, what's important for modern consoles - you can easily control its memory operations.</p>
+</div><h3>Answer 4:</h3><div><p>The Python/C API manual is longer than the <em>whole</em> Lua manual (including the Lua/C API). </p>
+
+<p>Another reason for Lua is the built-in support for coroutines (co-operative multitasking within the one OS thread). It allows one to have like 1000's of seemingly individual scripts running very fast alongside each other. Like one script per monster/weapon or so.</p>
+
+<p>( Why do people write Lua in upper case so much on SO?  It's "Lua" (see <a href="http://www.lua.org/about.html" rel="nofollow noreferrer">here</a>). )</p>
+</div><h3>Answer 5:</h3><div><p>One interesting option is <a href="http://www.stackless.com/" rel="noreferrer">stackless-python</a>.  This was used in the Eve-Online game.</p>
+</div><h3>Answer 6:</h3><div><p>The syntax is a matter of taste, Lua is like Javascript but with curly braces replaced with Pascal-like keywords. It has the nice syntactic feature that semicolons are never required but whitespace is still not significant, so you can even remove all line breaks and have it still work. As someone who started with C I'd say Python is the one with esoteric syntax compared to all the other languages.</p>
+
+<p>LuaJIT is also around 10 times as fast as Python and the Lua interpreter is much much smaller (150kb or around 15k lines of C which you can actually read through and understand). You can let the user script your game without having to embed a massive language. On the other hand if you rip the parser part out of Lua it becomes even smaller.</p>
+</div><h3>Answer 7:</h3><div><p>Embedding the interpreter is no issue. I am more interested in features and performance at this point in time. LUA and Squirrel are both interpreted, which is nice because one of the games i am building out is to include modifiable code, which has an editor in game.</p>
+
+<p>I would love to hear about python, as i have seen its use within the battlefield series i believe. </p>
+</div><h3>Answer 8:</h3><div><p>I wouldn't recommend LUA, it has a peculiar syntax so takes some time to get used to.  Depending on who will be doing the scripting, this may not be a problem, but I would try to use something fairly accessible.</p>
+
+<p>I would probably choose python.  It normally compiles to bytecode, so you would need to embed the interpreter.  However, if you must you can use PyPy to for example translate the code to C, and then compile it.</p>
+</div><h3>Answer 9:</h3><div><p>I'd go with Lua since writing bindings is extremely easy, the license is very friendly (MIT) and existing libraries also tend to be under said license. Scheme is also nice and easy to bind which is why it was chosen for the Gimp image editor for example. But Lua is simply great. World of Warcraft uses it, as a very high profile example. LuaJIT gives you native-compiled performance. It's <a href="http://shootout.alioth.debian.org/u32q/benchmark.php?test=all&amp;lang=luajit&amp;lang2=gcc" rel="nofollow noreferrer">less than an order of magnitude</a> from pure C.</p>
+</div><hr></body></html>

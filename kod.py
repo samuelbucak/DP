@@ -6,6 +6,8 @@ import nltk
 import re
 import numpy as np
 import tkinter as tk
+import webbrowser
+import os
 from tkinter import scrolledtext
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -124,7 +126,7 @@ def searchSO(keywords, numberOfQuestions=20):
     questions = []
     while len(questions) < numberOfQuestions and len(keywords) > 0:
         query = '+'.join(keywords).replace(' ', '+').replace('_', ' ')
-        url = f"https://api.stackexchange.com/2.3/search?order=desc&sort=relevance&intitle={query}&site=stackoverflow"
+        url = f"https://api.stackexchange.com/2.3/search?order=desc&sort=relevance&intitle={query}&site=stackoverflow&filter=withbody"
         response = requests.get(url)
         if response.status_code == 200:
             results = json.loads(response.text)
@@ -221,29 +223,31 @@ def visualizeMM(G):
     #plt.savefig('MM.png', format='PNG')
     plt.show()
 
-def printQuestions(questions):
-    #Vytvorenie hlavného okna
-    root = tk.Tk()
-    root.title("StackOverflow Questions")
-    root.geometry("800x600")
+def generateHTML(questions):
+    html_content = "<html><head><title>StackOverflow Q&A</title></head><body>"
 
-    #Vytvorenie textového poľa s posuvníkom
-    txt = scrolledtext.ScrolledText(root, width=100, height=50, wrap=tk.WORD)
-    txt.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
-
-    #Pridanie otázok to textového poľa
     for idx, question in enumerate(questions, 1):
-        txt.insert(tk.END, f"{idx}. {question['title']}\n\n")
+        html_content += f"<h2>Question {idx}: {question['title']}</h2>"
+        html_content += f"<div>{question['body']}</div>"
         if 'answers' in question:
             for answer_idx, answer in enumerate(question['answers'], 1):
-                txt.insert(tk.END, f"\tAnswer {answer_idx}: {answer}\n")
-        txt.insert(tk.END, "\n")
+                html_content += f"<h3>Answer {answer_idx}:</h3><div>{answer}</div>"
+        html_content += "<hr>"
+    html_content += "</body></html>"
 
-    #Zakázanie úpravy textového poľa používateľom
-    txt.config(state=tk.DISABLED)
+    return html_content
 
-    #Spustenie hlavného okna
-    root.mainloop()
+def printQuestions(questions):
+    #Vygenerovanie HTML obsahu
+    html_content = generateHTML(questions)
+
+    #Uloženie do súboru
+    temp_file = "temp_questions_answers.html"
+    with open(temp_file, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+
+    #Otvorenie súboru v prehliadači
+    webbrowser.open('file://' + os.path.realpath(temp_file))
 
 def main():
     #Získanie vstupu od používateľa
