@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import nltk
 import re
 import numpy as np
+import tkinter as tk
+from tkinter import scrolledtext
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 from gensim.models import Phrases
@@ -95,7 +97,7 @@ def processGitLog(git_log_text):
 
 def userInput():
     try:
-        with open("doc.txt", 'r', encoding='utf-8') as file:
+        with open("keywords.txt", 'r', encoding='utf-8') as file:
             input_text = file.read()
     except Exception as e:
         print(f"Error reading file: {e}")
@@ -214,8 +216,24 @@ def visualizeMM(G):
     plt.show()
 
 def printQuestions(questions):
+    #Vytvorenie hlavného okna
+    root = tk.Tk()
+    root.title("StackOverflow Questions")
+    root.geometry("800x600")
+
+    #Vytvorenie textového poľa s posuvníkom
+    txt = scrolledtext.ScrolledText(root, width=100, height=50, wrap=tk.WORD)
+    txt.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+    #Pridanie otázok to textového poľa
     for idx, question in enumerate(questions, 1):
-        print(f"{idx}. {question['title']}")
+        txt.insert(tk.END, f"{idx}. {question['title']}\n\n")
+
+    #Zakázanie úpravy textového poľa používateľom
+    txt.config(state=tk.DISABLED)
+
+    #Spustenie hlavného okna
+    root.mainloop()
 
 def main():
     #Získanie vstupu od používateľa
