@@ -136,7 +136,9 @@ def searchSO(keywords, numberOfQuestions=20):
                 answer_response = requests.get(answer_url)
                 if answer_response.status_code == 200:
                     answers = json.loads(answer_response.text)['items']
-                    question['answers'] = [answer['body'] for answer in answers if 'body' in answer]
+                    #Triedenie odpovedí podľa počtu upvotov
+                    top_answers = sorted(answers, key=lambda x: x['score'], reverse=True)[:5]                    
+                    question['answers'] = [answer['body'] for answer in top_answers if 'body' in answer]
                 questions.append(question)
         if len(questions) < numberOfQuestions:
             keywords.pop() #odstránenie posledného kľúčového slova
