@@ -13,10 +13,45 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 from gensim.models import Phrases
 from gensim.models.phrases import Phraser
+from bokeh.io import show
+from bokeh.plotting import from_networkx
+from bokeh.models import Plot, Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool
+from bokeh.models.graphs import NodesAndLinkedEdges, EdgesAndLinkedNodes
+from bokeh.palettes import Spectral4
 
-nltk.download('stopwords')
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
+#nltk.download('stopwords')
+#nltk.download('punkt')
+#nltk.download('averaged_perceptron_tagger')
+
+def map_nodes_to_integers(G):
+    mapping = {node: i for i, node in enumerate(G.nodes())}
+    return nx.relabel_nodes(G, mapping), mapping
+
+def showInteractiveMM(G):
+    G, mapping = map_nodes_to_integers(G)
+
+    #Vytvorenie grafu
+    plot = Plot(width=800, height=800, x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
+    plot.title.text = "Interactive Mind Map"
+
+    #Vytvorenie bokeh grafu z networkx grafu
+    graph = from_networkx(G, nx.spring_layout, scale=2, center=(0,0))
+    plot.renderers.append(graph)
+
+    #Pridanie nástrojov
+    hover = HoverTool(tooltips=[("Name", "@index")])
+    plot.add_tools(hover, TapTool(), BoxSelectTool())
+
+    #Štýlovanie grafu
+    graph.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
+    graph.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=5)
+    graph.selection_policy = NodesAndLinkedEdges()
+    graph.inspection_policy = EdgesAndLinkedNodes()
+
+    #Zobrazenie grafu
+    show(plot)
+    
+    #TO DO Pridanie callback funkcie na kliknutie na uzol
 
 def sort_coo(coo_matrix):
     tuples = zip(coo_matrix.col, coo_matrix.data)
@@ -266,7 +301,8 @@ def main():
     if questions:
         printQuestions(questions)
         G = createMM(questions)
-        visualizeMM(G)
+        #visualizeMM(G)
+        showInteractiveMM(G)
     else:
         print("No results")
 
