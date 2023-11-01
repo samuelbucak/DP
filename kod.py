@@ -4,18 +4,15 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import nltk
 import re
-import numpy as np
-import tkinter as tk
 import webbrowser
 import os
-from tkinter import scrolledtext
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 from gensim.models import Phrases
 from gensim.models.phrases import Phraser
 from bokeh.io import show
 from bokeh.plotting import from_networkx, figure
-from bokeh.models import Plot, Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool, LabelSet, ColumnDataSource, Text
+from bokeh.models import Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text
 from bokeh.models.graphs import NodesAndLinkedEdges, EdgesAndLinkedNodes
 from bokeh.palettes import Spectral4
 
@@ -244,36 +241,6 @@ def createMM(questions):
     
     return G
 
-def visualizeMM(G):
-    #Maximálna veľkosť uzla a hrúbka hrany
-    MAX_NODE_SIZE = 500
-    MAX_EDGE_WIDTH = 10
-
-    #Použitie spring layoutu na rozmiestnenie uzlov s väčším rozostupom
-    pos = nx.spring_layout(G, iterations=50, seed=42, k=1)
-
-    #Prispôsobenie veľkosti uzlov podľa stupňa uzla a normalizácia podľa max hodnoty
-    max_degree = max(dict(G.degree()).values())
-    node_sizes = [(G.degree(node) * MAX_NODE_SIZE / max_degree) for node in G.nodes()]
-    node_colors = "lightblue"
-
-    #Prispôsobenie hrúbky čiar podľa frekvencie výskytu normalizované podľa max hodnoty
-    max_weight = max([data['weight'] for _, _, data in G.edges(data=True)])
-    edge_widths = [(data['weight'] * MAX_EDGE_WIDTH / max_weight) for _, _, data in G.edges(data=True)]
-    edge_colors = "gray"
-
-    #Kreslenie grafu
-    plt.figure(figsize=(10, 10))
-    nx.draw(G, pos,
-            with_labels=True,
-            node_size=node_sizes,
-            node_color=node_colors,
-            edge_color=edge_colors,
-            width=edge_widths,
-            cmap=plt.cm.Blues)
-    #plt.savefig('MM.png', format='PNG')
-    plt.show()
-
 def generateHTML(questions):
     html_content = "<html><head><title>StackOverflow Q&A</title></head><body>"
 
@@ -315,7 +282,6 @@ def main():
     if questions:
         printQuestions(questions)
         G = createMM(questions)
-        #visualizeMM(G)
         showInteractiveMM(G)
     else:
         print("No results")
