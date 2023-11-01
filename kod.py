@@ -14,8 +14,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from gensim.models import Phrases
 from gensim.models.phrases import Phraser
 from bokeh.io import show
-from bokeh.plotting import from_networkx
-from bokeh.models import Plot, Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool
+from bokeh.plotting import from_networkx, figure
+from bokeh.models import Plot, Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool, LabelSet, ColumnDataSource, Text
 from bokeh.models.graphs import NodesAndLinkedEdges, EdgesAndLinkedNodes
 from bokeh.palettes import Spectral4
 
@@ -23,30 +23,44 @@ from bokeh.palettes import Spectral4
 #nltk.download('punkt')
 #nltk.download('averaged_perceptron_tagger')
 
-def map_nodes_to_integers(G):
+def map_nodes_to_integers_with_labels(G):
     mapping = {node: i for i, node in enumerate(G.nodes())}
-    return nx.relabel_nodes(G, mapping), mapping
+    H = nx.relabel_nodes(G, mapping)
+    for node, label in mapping.items():
+        H.nodes[label]['name'] = node
+    return H
 
 def showInteractiveMM(G):
-    G, mapping = map_nodes_to_integers(G)
+    G = map_nodes_to_integers_with_labels(G)
 
     #Vytvorenie grafu
-    plot = Plot(width=800, height=800, x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
+    plot = figure(width=800, height=800, x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
     plot.title.text = "Interactive Mind Map"
 
     #Vytvorenie bokeh grafu z networkx grafu
-    graph = from_networkx(G, nx.spring_layout, scale=2, center=(0,0))
+    graph = from_networkx(G, nx.spring_layout, scale=1, center=(0,0))
+    graph.node_renderer.data_source.data['name'] = [G.nodes[node]['name'] for node in G.nodes()]
+
     plot.renderers.append(graph)
 
     #Pridanie nástrojov
-    hover = HoverTool(tooltips=[("Name", "@index")])
+    hover = HoverTool(tooltips=[("Name", "@name")])
     plot.add_tools(hover, TapTool(), BoxSelectTool())
 
     #Štýlovanie grafu
     graph.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
-    graph.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=5)
+    graph.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=1)
     graph.selection_policy = NodesAndLinkedEdges()
     graph.inspection_policy = EdgesAndLinkedNodes()
+
+    #Extrahovanie koordinatov z grafu
+    node_coordinates = graph.layout_provider.graph_layout
+    x_values = [x for x, _ in node_coordinates.values()]
+    y_values = [y for _, y in node_coordinates.values()]
+    names = [G.nodes[node]['name'] for node in G.nodes()]
+    source = ColumnDataSource(data=dict(x=x_values, y=y_values, name=names))
+    labels = Text(x='x', y='y', text='name', text_align='center', text_baseline='middle')
+    plot.add_glyph(source, labels)
 
     #Zobrazenie grafu
     show(plot)

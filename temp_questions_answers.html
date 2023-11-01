@@ -435,7 +435,10 @@ Engine-&gt;AddObject(&amp;s);
 
 <p>The three big lies of software development: 
 <a href="http://www.insomniacgames.com/blogcast/blog/all_categories/1500756" rel="nofollow noreferrer">http://www.insomniacgames.com/blogcast/blog/all_categories/1500756</a></p>
-</div><hr><h2>Question 11: Is there any game engine in Scala?</h2><div><p>I wonder if there are any game engine written in Scala or easily accesible from Scala?</p>
+</div><hr><h2>Question 11: Centrifugal Game Engine</h2><div><p>I am not entirely sure if this is the correct stack exchange, so if anyone thinks that there is a better place for it, say so in the comments:</p>
+
+<p>Are there any game engines which would allow me to have a space station where illusory gravity is generated through centripetal force?  Normal gravity in an engine such as unity would not work, as there are special physical properties that this rotation method has as side effects.  For example, if you run in one direction, "gravity" will exert less force on you.  A bullet might never actually fall if it is shot at the right speed in the right direction.  The Coriolis effect would mean that falling objects would curve.  I could, of course, actually have a space station rotating in Unity, but this seems like it might make the game CPU bottlenecked.   Any suggestions?</p>
+</div><hr><h2>Question 12: Is there any game engine in Scala?</h2><div><p>I wonder if there are any game engine written in Scala or easily accesible from Scala?</p>
 </div><h3>Answer 1:</h3><div><p>All the Java gaming engines are easily accessible due to easy Java integration. There are several (not sorted in any way):</p>
 
 <ul>
@@ -459,7 +462,7 @@ Engine-&gt;AddObject(&amp;s);
 </div><h3>Answer 5:</h3><div><p><a href="http://github.com/Villane/scalabox2d/tree/master" rel="nofollow noreferrer">ScalaBox2D</a></p>
 
 <p>It's probably not a full fledged game engine though. (I dunno I have never written large games).</p>
-</div><hr><h2>Question 12: Flash game engine</h2><div><p>I need simple game engine with pixel-perfect collision detection, camera component with following function, network and particle components would be desirable.
+</div><hr><h2>Question 13: Flash game engine</h2><div><p>I need simple game engine with pixel-perfect collision detection, camera component with following function, network and particle components would be desirable.
 Anyone knows whether the engine right under these requirements?</p>
 </div><h3>Answer 1:</h3><div><p><a href="http://flashpunk.org" rel="nofollow">FlashPunk</a> is able to do exactly what you want. Furthermore, the <a href="http://flashpunk.net/forums/" rel="nofollow">FlashPunk Community</a> is lovely awesome and really helpful.</p>
 
@@ -489,7 +492,7 @@ Anyone knows whether the engine right under these requirements?</p>
 <a href="http://flashpunk.net/" rel="nofollow noreferrer">Flashpunk</a></p>
 
 <p><a href="http://flixel.org/forums/index.php?topic=576.0;wap2" rel="nofollow noreferrer">A comparison of Flixel and Flashpunk.</a></p>
-</div><hr><h2>Question 13: What is a good game engine that uses Lua?</h2><div><p>I know <a href="http://love2d.org/" rel="noreferrer" title="Love2D">Love2D</a> and <a href="https://coronalabs.com/" rel="noreferrer">Corona SDK</a> (for mobile devices). Is there any other game engines that use Lua you recommend?</p>
+</div><hr><h2>Question 14: What is a good game engine that uses Lua?</h2><div><p>I know <a href="http://love2d.org/" rel="noreferrer" title="Love2D">Love2D</a> and <a href="https://coronalabs.com/" rel="noreferrer">Corona SDK</a> (for mobile devices). Is there any other game engines that use Lua you recommend?</p>
 </div><h3>Answer 1:</h3><div><h2><strong>Game engines that use Lua</strong></h2>
 <p><strong>Free unless noted</strong></p>
 <ul>
@@ -552,73 +555,7 @@ Anyone knows whether the engine right under these requirements?</p>
 <li><a href="http://github.com/antirez/load81" rel="nofollow">load81</a></li>
 <li><a href="http://www.egsl.retrogamecoding.org" rel="nofollow">egsl</a></li>
 </ul>
-</div><hr><h2>Question 14: Centrifugal Game Engine</h2><div><p>I am not entirely sure if this is the correct stack exchange, so if anyone thinks that there is a better place for it, say so in the comments:</p>
-
-<p>Are there any game engines which would allow me to have a space station where illusory gravity is generated through centripetal force?  Normal gravity in an engine such as unity would not work, as there are special physical properties that this rotation method has as side effects.  For example, if you run in one direction, "gravity" will exert less force on you.  A bullet might never actually fall if it is shot at the right speed in the right direction.  The Coriolis effect would mean that falling objects would curve.  I could, of course, actually have a space station rotating in Unity, but this seems like it might make the game CPU bottlenecked.   Any suggestions?</p>
-</div><hr><h2>Question 15: Game Engine Runtime Decompression</h2><div><p>I have been trying to find out how game engines deal with asset compression. Obviously they compress all the assets when building the game. But how do they decompress them during runtime. The only thing I could think of was decompressing into memory, but that must be very memory intensive. If they decompressed onto the HDD a folder would be filling up while the game is playing? This doesn't sound very efficient.</p>
-
-<p>Using a library like zlib (or any other) with c++,  how is this runtime decompression done?</p>
-
-<p>David</p>
-</div><h3>Answer 1:</h3><div><p>It's kinda like this, you have a game with so much data that it won't fit in a reasonable amount of memory, so you can't load all of them at once in memory, so you define some buffers for the data that you use as caches.</p>
-
-<p>Now memory in order of speed from lowest to highest is as such:</p>
-
-<ul>
-<li>DVD</li>
-<li>Hard Drive</li>
-<li>RAM</li>
-</ul>
-
-<p>Ideally you won't have to stream data from the DVD, but it's something to take into account if you have to make a console game for instance. So for each of these available storage spaces you define a buffer to be used as a cache.</p>
-
-<p>When the game engine decides that it might need an asset, it should first look in the fastest cache to see if the asset is already loaded. If it is then you're in luck, you can immediately send it to be drawn. If it's not in the fastest cache, you have to go down a level to the hard drive cache. This is a file where you keep assets that were already decompressed and ready to be loaded into memory. If the fastest cache isn't fully occupied then you can just start loading the data and use it when it's ready. If there isn't enough space, then you will have to unload other assets first, I would recommend removing the least recently used assets until you have enough space to load the new one.</p>
-
-<p>Now if the hard drive cache doesn't have the data loaded then you have to go down one more level to the archive, you will want to use the zip format to compress it because the zip file format doesn't force you to decompress the entire archive to have access to just one file so all you have to do is find the offset of said file within the archive and decompress it into the hard drive cache. Again if the cache is full you'd have to unload some other assets first, again I'd recommend removing the least recently used but you can try other algorithms as well if you think it will improve performance.</p>
-
-<p>John Karmack had a keynote at QuakeCon 2011 where he explained this whole process maybe a little bit better than I can in a post (among other awesome things), you can find it <a href="https://www.youtube.com/watch?v=4zgYG-_ha28" rel="noreferrer">here</a></p>
-</div><h3>Answer 2:</h3><div><p>Compression can happen in many ways on many different layers, and when, where and how its used are totally dependent what its aims &amp; goals are (compression isn't always about saving space on disk).</p>
-
-<p>Very basically, on a top level, all assets would/could be compressed into a bulk archive (this speeds up reads, as there is less to read from the HDD, but you are sacrificing processing power for this, as apposed to using DMA to read uncompressed files, which doesn't use the CPU at all), read back is almost always done memory to memory, reading back to the HDD would destroy performance and cause a host of problems (and in some cases would be impossible, such as on older generation consoles).</p>
-
-<p>A second tier can/could be done on the asset itself, as an example, textures can be compressed in MANY different ways, but mainly block compression (S3TC/DXTn, BCn) is used these days as its decompression is supported in hardware (or emulated by the driver), so when once its read for the archive/disk, no further decompression needs to be done.</p>
-
-<p>The compression strategies also vary per platform, especially on consoles which are very sensitive to memory layout, have limited resources and have small caches etc.</p>
-
-<blockquote>
-  <p>Using a library like zlib (or any other) with c++, how is this runtime decompression done?</p>
-</blockquote>
-
-<p>generally you want to use memory mapped files of the archive and decompress directly to RAM, a good example of a AAA archive system that is well documented that does this is the <a href="http://en.wikipedia.org/wiki/MPQ" rel="nofollow">MPQ format</a> (used by Blizzard Entertainment, more details <a href="http://www.zezula.net/en/mpq/mpqformat.html" rel="nofollow">here</a>), it uses a variety of compression algos, such as deflate for Diablo I, zlib for Warcraft III, bzip2 in World of Warcraft, and they recently added LZ and sparse compression for their newer games like SCII.</p>
-
-<p>Jan Wassenberg' thesis (<code>Optimizing File Accesses via Ordering and Caching</code>) has a good breakdown of file management, that may also be of interest.</p>
-</div><h3>Answer 3:</h3><div><blockquote>
-  <p>game engines deal with asset compression</p>
-</blockquote>
-
-<p>There are different game engine assets such as geometry models (triangulation/ polygonal model), textures, etc. Each asset class has a different compression strategy. Can you be more specific ?</p>
-
-<p>For model compression, <a href="http://www.cs.unc.edu/~isenburg/dissertation.pdf" rel="nofollow">Check this</a></p>
-</div><hr><h2>Question 16: Allocators for game engine</h2><div><p>I am currently coding a memory allocation system for a game engine, and I was wondering if there were any experienced developers out there who could help with some advice about what allocator structures are useful.</p>
-
-<p>I know that sounds a bit worrying to some people, and so I think I need to justify my position a little bit. I have read the answers <a href="https://stackoverflow.com/questions/1987043/game-engine-development">here</a> and <a href="https://stackoverflow.com/questions/3411551/game-engine-development">here</a> (and also the blogs they point to <a href="https://stackoverflow.com/questions/1987043/game-engine-development">here</a>, <a href="http://realtimecollisiondetection.net/blog/?p=44" rel="nofollow noreferrer">here</a> and <a href="http://realtimecollisiondetection.net/blog/?p=81" rel="nofollow noreferrer">here</a>). But see, I have tried the "make a game first, over and over, and then the code you reuse is your 'engine'" thing, and it didn't really work for me. I found that I actually got bogged down in those things I was doing again and again (probably didn't reuse my code very well) and didn't get very far in any game.</p>
-
-<p>So, I decided I would code these things that I was reusing over and over again once more... do it once and set it aside.</p>
-
-<p>I really found myself out of my league, so I bought a few books. Game Engine Architecture by Jason Gregory (GEA) is really good, btw, but I also have Game Coding Complete (McShaffry) and Programming Game AI by Example (Buckland). GEA has some really good ideas about high performance allocators, and that really interested me, so I thought I would give it a go.</p>
-
-<p>I have coded a stack-based allocator, and am nearly finished a pool-based allocator. Both have the capacity to be memory aligned and can be assigned to work with different memory budgets (i.e. any allocator could for example use "retail" memory or "development" memory etc). I have found just creating these components such a rewarding thing in terms of my programming skills/interest level.</p>
-
-<p>I am wondering if there are any developers out there who would be willing to recommend any other allocator structures that are useful or come up regularly in game development. ? Or if there are any developers who have never used anything else in their entire careers?</p>
-
-<p>Again justifying my question (I can nearly hear people whispering "Just make your own game and see what structures you need...", but...) Game Engine Architecture has been such a great resource for me because the author is willing and unashamed to say "hey, this is what the industry mostly sorta does". And it would save me a lot of time writing a whole heap of games and figuring it out what is useful, if somebody can do some 'experience-reuse' and say 'think about this structure'.</p>
-</div><h3>Answer 1:</h3><div><p>Seriously, the biggest obstacle to writing a game is thinking you need to design all kinds of fancy library code first. Most games need this kind of thing much less than any other type of application. Games almost always deal with a very finite number of data/objects determined mostly by the deverlopers and only slightly affected by the players' actions (massively multiplayer games being the only possible exception to this rule) and as such you can even get by making static arrays for all the data if you're slightly crazy.</p>
-
-<p>Unless you're developing for PlayStation or other console junk with a broken standard library, you should not even think about writing your own allocator. It's completely orthogonal to game development and a waste of your time. This is 2011 not 1992 and you're not dealing with DOS systems with 2-4MB of ram where you have to manage your own data caching and discarding. Let the virtual memory system do the work for you and spend your time making a game, not half of an operating system.</p>
-</div><h3>Answer 2:</h3><div><p>Well, honestly, the ones I've been using most are <code>Pool&lt;T&gt;</code> for short-lived objects and pre-allocated heap as a replacement over C++ default allocator.</p>
-
-<p>But once again, develop <em>what you need when you need it</em>.</p>
-</div><hr><h2>Question 17: Game engine development question</h2><div><p>I am thinking of making a simple game engine for my course final year project. I want it to be modular and expandable so that I can add new parts if I have time. For example I would make a graphics engine that would be completely independent of the other systems, once that was finished I could add a physics engine etc.
+</div><hr><h2>Question 15: Game engine development question</h2><div><p>I am thinking of making a simple game engine for my course final year project. I want it to be modular and expandable so that I can add new parts if I have time. For example I would make a graphics engine that would be completely independent of the other systems, once that was finished I could add a physics engine etc.
 I would also want to make a tool set to go with this engine. For the tools I would like to use C# but I am not sure about the libraries. My question is, if I want a C# GUI program, can I reference a library written in C++? Also would there be any performance problems etc. if I made some of the libraries in C# but wanted to use them from a C++ game.</p>
 
 <p>I would like to avoid C++ as much as possible, my experiences have shown that development time can be a lot higher for a project over that of using C# or Java etc. My graphics development would be in OpenGL, this is all I have been taught. We have only done this in C++ but I have seen that projects such as <a href="http://www.codeproject.com/KB/openGL/sharpgl.aspx" rel="nofollow noreferrer">SharpGL</a> allow for the development with C#. Is there any performance issues with this. I am not looking for a blindingly fast, top graphics game. It will most likely be something simple to show my engine working. My engine probably won't be that great either as I only have a year and am working on my own.</p>
@@ -692,7 +629,7 @@ By contrast, hobbyist engines pretty much always end up taking 2+ years of the d
 <p>As a teenager I went through the build-my-own-engine phase, a few years later I realized I would have gotten a whole lot more done if I had just used pygame and pyopengl and not wasted the effort.</p>
 
 <p>Check out the forums at gamedev.net.</p>
-</div><hr><h2>Question 18: Exemplary 2D game engine</h2><div><p>Is anyone here able to point me to a simple and well designed C++ 2D open source game engine? The genre is less important, I wish to learn by example. I wouldn't want anything particularly complex as I'm interested in learning general concepts, rather than getting into the nitty-gritty of the engine implementation.</p>
+</div><hr><h2>Question 16: Exemplary 2D game engine</h2><div><p>Is anyone here able to point me to a simple and well designed C++ 2D open source game engine? The genre is less important, I wish to learn by example. I wouldn't want anything particularly complex as I'm interested in learning general concepts, rather than getting into the nitty-gritty of the engine implementation.</p>
 </div><h3>Answer 1:</h3><div><p>Personally I learned a lot, looking through the source code of <a href="http://www.frogatto.com/" rel="nofollow" title="Frogatto">Frogatto</a>, even the source code can be viewed only <a href="http://www.frogatto.com/viewvc.cgi/frogatto/trunk/src/" rel="nofollow" title="Frogatto source code viewer">here</a>.</p>
 
 <p>It is of course a more complex game, but there is much to learn regarding software/game architecture and design.</p>
@@ -703,6 +640,69 @@ By contrast, hobbyist engines pretty much always end up taking 2+ years of the d
 <p>Also: <a href="http://en.wikipedia.org/wiki/List_of_game_engines" rel="nofollow">here</a> are some others if you want to give them a try.</p>
 </div><h3>Answer 3:</h3><div><p>Have a look at SuperTux, it's a nice little platformer game inspired by Mario, written in C++.
 There is a builtin level editor, too.   </p>
+</div><hr><h2>Question 17: Game Engine Runtime Decompression</h2><div><p>I have been trying to find out how game engines deal with asset compression. Obviously they compress all the assets when building the game. But how do they decompress them during runtime. The only thing I could think of was decompressing into memory, but that must be very memory intensive. If they decompressed onto the HDD a folder would be filling up while the game is playing? This doesn't sound very efficient.</p>
+
+<p>Using a library like zlib (or any other) with c++,  how is this runtime decompression done?</p>
+
+<p>David</p>
+</div><h3>Answer 1:</h3><div><p>It's kinda like this, you have a game with so much data that it won't fit in a reasonable amount of memory, so you can't load all of them at once in memory, so you define some buffers for the data that you use as caches.</p>
+
+<p>Now memory in order of speed from lowest to highest is as such:</p>
+
+<ul>
+<li>DVD</li>
+<li>Hard Drive</li>
+<li>RAM</li>
+</ul>
+
+<p>Ideally you won't have to stream data from the DVD, but it's something to take into account if you have to make a console game for instance. So for each of these available storage spaces you define a buffer to be used as a cache.</p>
+
+<p>When the game engine decides that it might need an asset, it should first look in the fastest cache to see if the asset is already loaded. If it is then you're in luck, you can immediately send it to be drawn. If it's not in the fastest cache, you have to go down a level to the hard drive cache. This is a file where you keep assets that were already decompressed and ready to be loaded into memory. If the fastest cache isn't fully occupied then you can just start loading the data and use it when it's ready. If there isn't enough space, then you will have to unload other assets first, I would recommend removing the least recently used assets until you have enough space to load the new one.</p>
+
+<p>Now if the hard drive cache doesn't have the data loaded then you have to go down one more level to the archive, you will want to use the zip format to compress it because the zip file format doesn't force you to decompress the entire archive to have access to just one file so all you have to do is find the offset of said file within the archive and decompress it into the hard drive cache. Again if the cache is full you'd have to unload some other assets first, again I'd recommend removing the least recently used but you can try other algorithms as well if you think it will improve performance.</p>
+
+<p>John Karmack had a keynote at QuakeCon 2011 where he explained this whole process maybe a little bit better than I can in a post (among other awesome things), you can find it <a href="https://www.youtube.com/watch?v=4zgYG-_ha28" rel="noreferrer">here</a></p>
+</div><h3>Answer 2:</h3><div><p>Compression can happen in many ways on many different layers, and when, where and how its used are totally dependent what its aims &amp; goals are (compression isn't always about saving space on disk).</p>
+
+<p>Very basically, on a top level, all assets would/could be compressed into a bulk archive (this speeds up reads, as there is less to read from the HDD, but you are sacrificing processing power for this, as apposed to using DMA to read uncompressed files, which doesn't use the CPU at all), read back is almost always done memory to memory, reading back to the HDD would destroy performance and cause a host of problems (and in some cases would be impossible, such as on older generation consoles).</p>
+
+<p>A second tier can/could be done on the asset itself, as an example, textures can be compressed in MANY different ways, but mainly block compression (S3TC/DXTn, BCn) is used these days as its decompression is supported in hardware (or emulated by the driver), so when once its read for the archive/disk, no further decompression needs to be done.</p>
+
+<p>The compression strategies also vary per platform, especially on consoles which are very sensitive to memory layout, have limited resources and have small caches etc.</p>
+
+<blockquote>
+  <p>Using a library like zlib (or any other) with c++, how is this runtime decompression done?</p>
+</blockquote>
+
+<p>generally you want to use memory mapped files of the archive and decompress directly to RAM, a good example of a AAA archive system that is well documented that does this is the <a href="http://en.wikipedia.org/wiki/MPQ" rel="nofollow">MPQ format</a> (used by Blizzard Entertainment, more details <a href="http://www.zezula.net/en/mpq/mpqformat.html" rel="nofollow">here</a>), it uses a variety of compression algos, such as deflate for Diablo I, zlib for Warcraft III, bzip2 in World of Warcraft, and they recently added LZ and sparse compression for their newer games like SCII.</p>
+
+<p>Jan Wassenberg' thesis (<code>Optimizing File Accesses via Ordering and Caching</code>) has a good breakdown of file management, that may also be of interest.</p>
+</div><h3>Answer 3:</h3><div><blockquote>
+  <p>game engines deal with asset compression</p>
+</blockquote>
+
+<p>There are different game engine assets such as geometry models (triangulation/ polygonal model), textures, etc. Each asset class has a different compression strategy. Can you be more specific ?</p>
+
+<p>For model compression, <a href="http://www.cs.unc.edu/~isenburg/dissertation.pdf" rel="nofollow">Check this</a></p>
+</div><hr><h2>Question 18: Allocators for game engine</h2><div><p>I am currently coding a memory allocation system for a game engine, and I was wondering if there were any experienced developers out there who could help with some advice about what allocator structures are useful.</p>
+
+<p>I know that sounds a bit worrying to some people, and so I think I need to justify my position a little bit. I have read the answers <a href="https://stackoverflow.com/questions/1987043/game-engine-development">here</a> and <a href="https://stackoverflow.com/questions/3411551/game-engine-development">here</a> (and also the blogs they point to <a href="https://stackoverflow.com/questions/1987043/game-engine-development">here</a>, <a href="http://realtimecollisiondetection.net/blog/?p=44" rel="nofollow noreferrer">here</a> and <a href="http://realtimecollisiondetection.net/blog/?p=81" rel="nofollow noreferrer">here</a>). But see, I have tried the "make a game first, over and over, and then the code you reuse is your 'engine'" thing, and it didn't really work for me. I found that I actually got bogged down in those things I was doing again and again (probably didn't reuse my code very well) and didn't get very far in any game.</p>
+
+<p>So, I decided I would code these things that I was reusing over and over again once more... do it once and set it aside.</p>
+
+<p>I really found myself out of my league, so I bought a few books. Game Engine Architecture by Jason Gregory (GEA) is really good, btw, but I also have Game Coding Complete (McShaffry) and Programming Game AI by Example (Buckland). GEA has some really good ideas about high performance allocators, and that really interested me, so I thought I would give it a go.</p>
+
+<p>I have coded a stack-based allocator, and am nearly finished a pool-based allocator. Both have the capacity to be memory aligned and can be assigned to work with different memory budgets (i.e. any allocator could for example use "retail" memory or "development" memory etc). I have found just creating these components such a rewarding thing in terms of my programming skills/interest level.</p>
+
+<p>I am wondering if there are any developers out there who would be willing to recommend any other allocator structures that are useful or come up regularly in game development. ? Or if there are any developers who have never used anything else in their entire careers?</p>
+
+<p>Again justifying my question (I can nearly hear people whispering "Just make your own game and see what structures you need...", but...) Game Engine Architecture has been such a great resource for me because the author is willing and unashamed to say "hey, this is what the industry mostly sorta does". And it would save me a lot of time writing a whole heap of games and figuring it out what is useful, if somebody can do some 'experience-reuse' and say 'think about this structure'.</p>
+</div><h3>Answer 1:</h3><div><p>Seriously, the biggest obstacle to writing a game is thinking you need to design all kinds of fancy library code first. Most games need this kind of thing much less than any other type of application. Games almost always deal with a very finite number of data/objects determined mostly by the deverlopers and only slightly affected by the players' actions (massively multiplayer games being the only possible exception to this rule) and as such you can even get by making static arrays for all the data if you're slightly crazy.</p>
+
+<p>Unless you're developing for PlayStation or other console junk with a broken standard library, you should not even think about writing your own allocator. It's completely orthogonal to game development and a waste of your time. This is 2011 not 1992 and you're not dealing with DOS systems with 2-4MB of ram where you have to manage your own data caching and discarding. Let the virtual memory system do the work for you and spend your time making a game, not half of an operating system.</p>
+</div><h3>Answer 2:</h3><div><p>Well, honestly, the ones I've been using most are <code>Pool&lt;T&gt;</code> for short-lived objects and pre-allocated heap as a replacement over C++ default allocator.</p>
+
+<p>But once again, develop <em>what you need when you need it</em>.</p>
 </div><hr><h2>Question 19: Qt4 2D Game Engine</h2><div><p>Are there any 2-D Game Engines for Qt4 out there? I want a game engine that has collision detection, and runs smoothly with lots of sprites on screen.</p>
 </div><h3>Answer 1:</h3><div><p>The <a href="http://doc.qt.nokia.com/4.6/graphicsview.html" rel="noreferrer">QT Graphics view </a> has collision detection build right in. You don't need a framework for that.</p>
 
