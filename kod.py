@@ -30,28 +30,40 @@ def map_nodes_to_integers_with_labels(G):
 def showInteractiveMM(G):
     G = map_nodes_to_integers_with_labels(G)
 
+    #Pridelenie váhy hránam na základe ich dôležitosti
+    for u, v, d in G.edges(data=True):
+        d['weight'] = G.degree(u) + G.degree(v)
+
     #Vytvorenie grafu
     plot = figure(width=800, height=800, x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
     plot.title.text = "Interactive Mind Map"
 
     #Vytvorenie bokeh grafu z networkx grafu
-    graph = from_networkx(G, nx.spring_layout, scale=1, center=(0,0))
-    graph.node_renderer.data_source.data['name'] = [G.nodes[node]['name'] for node in G.nodes()]
+    graph_renderer = from_networkx(G, nx.spring_layout, scale=1, center=(0, 0))
+    graph_renderer.node_renderer.data_source.data['name'] = [G.nodes[node]['name'] for node in G.nodes()]
 
-    plot.renderers.append(graph)
+    #Zablokovanie defaultneho renderera hran
+    graph_renderer.edge_renderer.visible = False
+
+    plot.renderers.append(graph_renderer)
+
+    #Manuálne priradenie hrúbky hránam
+    for start, end, data in G.edges(data=True):
+        xs, ys = zip(*[(x, y) for x, y in [graph_renderer.layout_provider.graph_layout[start], graph_renderer.layout_provider.graph_layout[end]]])
+        plot.line(xs, ys, line_width=data['weight'], color="#CCCCCC", alpha=0.8)
 
     #Pridanie nástrojov
     hover = HoverTool(tooltips=[("Name", "@name")])
     plot.add_tools(hover, TapTool(), BoxSelectTool())
 
     #Štýlovanie grafu
-    graph.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
-    graph.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=1)
-    graph.selection_policy = NodesAndLinkedEdges()
-    graph.inspection_policy = EdgesAndLinkedNodes()
+    graph_renderer.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
+
+    graph_renderer.selection_policy = NodesAndLinkedEdges()
+    graph_renderer.inspection_policy = EdgesAndLinkedNodes()
 
     #Extrahovanie koordinatov z grafu
-    node_coordinates = graph.layout_provider.graph_layout
+    node_coordinates = graph_renderer.layout_provider.graph_layout
     x_values = [x for x, _ in node_coordinates.values()]
     y_values = [y for _, y in node_coordinates.values()]
     names = [G.nodes[node]['name'] for node in G.nodes()]
