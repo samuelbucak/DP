@@ -47,10 +47,14 @@ def showInteractiveMM(G):
 
     plot.renderers.append(graph_renderer)
 
+    #Normalizovanie hrúbok hrán
+    max_weight = max([data['weight'] for _, _, data in G.edges(data=True)])
+    scaled_weights = [(data['weight'] / max_weight) * 2.5 + 2.5 for _, _, data in G.edges(data=True)]
+
     #Manuálne priradenie hrúbky hránam
-    for start, end, data in G.edges(data=True):
+    for (start, end, data), width in zip(G.edges(data=True), scaled_weights):
         xs, ys = zip(*[(x, y) for x, y in [graph_renderer.layout_provider.graph_layout[start], graph_renderer.layout_provider.graph_layout[end]]])
-        plot.line(xs, ys, line_width=data['weight'], color="#CCCCCC", alpha=0.8)
+        plot.line(xs, ys, line_width=width, color="#CCCCCC", alpha=0.8)
 
     #Pridanie nástrojov
     hover = HoverTool(tooltips=[("Name", "@name")])
@@ -65,7 +69,8 @@ def showInteractiveMM(G):
     #Extrahovanie koordinatov z grafu
     node_coordinates = graph_renderer.layout_provider.graph_layout
     x_values = [x for x, _ in node_coordinates.values()]
-    y_values = [y for _, y in node_coordinates.values()]
+    #Poziciovanie textu nad uzly
+    y_values = [y + 0.05 for _, y in node_coordinates.values()]
     names = [G.nodes[node]['name'] for node in G.nodes()]
     source = ColumnDataSource(data=dict(x=x_values, y=y_values, name=names))
     labels = Text(x='x', y='y', text='name', text_align='center', text_baseline='middle')
