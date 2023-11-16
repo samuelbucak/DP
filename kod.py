@@ -1,20 +1,12 @@
 import requests
 import json
 import networkx as nx
-import matplotlib.pyplot as plt
 import nltk
-import re
-import webbrowser
-import os
 from bokeh.models.widgets import Button
-from bokeh.layouts import layout, column
+from bokeh.layouts import column
 from nltk.corpus import stopwords
-from sklearn.feature_extraction.text import TfidfVectorizer
-from gensim.models import Phrases
-from gensim.models.phrases import Phraser
-from bokeh.io import curdoc, show
 from bokeh.plotting import from_networkx, figure
-from bokeh.models import Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text, CustomJS, TextInput, Button, Div
+from bokeh.models import Range1d, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text, TextInput, Button, Div
 from bokeh.models.graphs import NodesAndLinkedEdges, EdgesAndLinkedNodes
 from bokeh.palettes import Spectral4
 from bokeh.server.server import Server
@@ -37,6 +29,9 @@ def modify_doc(doc):
     text_input = TextInput(value="Enter keywords here")
     search_button = Button(label="Search", button_type="success")
     result_div = Div(text="")
+    # Inicializácia prázdneho miesta pre graf
+    placeholder = Div(text="Graf sa načíta po vykonaní vyhľadávania")
+    layout = column(text_input, search_button, result_div, placeholder)
 
     def search_callback():
         keywords = text_input.value.split(",") #Kľúčové slová oddelené čiarkou
@@ -96,17 +91,15 @@ def modify_doc(doc):
             source = ColumnDataSource(data=dict(x=x_values, y=y_values, name=names))
             labels = Text(x='x', y='y', text='name', text_align='center', text_baseline='middle')
             plot.add_glyph(source, labels)
-
-            show(plot)
-
+            # Aktualizácia layoutu s novým grafom
+            layout.children[-1] = plot  # Nahrádzame posledný element (placeholder) grafom
         else:
             result_div.text = "No Results"
     
     search_button.on_click(search_callback)
 
-    #Pridanie inputu a tlačidla do dokumentu
-    initial_layout = column(text_input, search_button, result_div)
-    doc.add_root(initial_layout)
+    # Pridanie layoutu do dokumentu
+    doc.add_root(layout)
 
 
 def update_document_with_graph(doc, G):
