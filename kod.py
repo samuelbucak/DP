@@ -6,15 +6,20 @@ import nltk
 import re
 import webbrowser
 import os
+from bokeh.models.widgets import Button
+from bokeh.layouts import layout, column
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 from gensim.models import Phrases
 from gensim.models.phrases import Phraser
-from bokeh.io import show
+from bokeh.io import curdoc, show
 from bokeh.plotting import from_networkx, figure
-from bokeh.models import Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text
+from bokeh.models import Range1d, MultiLine, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text, CustomJS, TextInput, Button, Div
 from bokeh.models.graphs import NodesAndLinkedEdges, EdgesAndLinkedNodes
 from bokeh.palettes import Spectral4
+from bokeh.server.server import Server
+from bokeh.application import Application
+from bokeh.application.handlers.function import FunctionHandler
 
 #nltk.download('stopwords')
 #nltk.download('punkt')
@@ -27,7 +32,84 @@ def map_nodes_to_integers_with_labels(G):
         H.nodes[label]['name'] = node
     return H
 
-def showInteractiveMM(G):
+def modify_doc(doc):
+    #Používateľský vstup
+    text_input = TextInput(value="Enter keywords here")
+    search_button = Button(label="Search", button_type="success")
+    result_div = Div(text="")
+
+    def search_callback():
+        keywords = text_input.value.split(",") #Kľúčové slová oddelené čiarkou
+
+        #Vyhľadávanie
+        questions = searchSO(keywords)
+
+        if questions:
+            html_content = generateHTML(questions)
+            result_div.text = html_content
+            G = createMM(questions)
+            #VYTVORENIE GRAFU
+            G = map_nodes_to_integers_with_labels(G)
+
+            #Pridelenie váhy hránam na základe ich dôležitosti
+            for u, v, d in G.edges(data=True):
+                d['weight'] = G.degree(u) + G.degree(v)
+
+            #Vytvorenie grafu
+            plot = figure(width=800, height=800, x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
+            plot.title.text = "Interactive Mind Map"
+
+            #Vytvorenie bokeh grafu z networkx grafu
+            graph_renderer = from_networkx(G, nx.spring_layout, scale=1, center=(0, 0))
+            graph_renderer.node_renderer.data_source.data['name'] = [G.nodes[node]['name'] for node in G.nodes()]
+
+            #Zablokovanie defaultneho renderera hran
+            graph_renderer.edge_renderer.visible = False
+
+            plot.renderers.append(graph_renderer)
+
+            #Normalizovanie hrúbok hrán
+            max_weight = max([data['weight'] for _, _, data in G.edges(data=True)])
+            scaled_weights = [(data['weight'] / max_weight) * 2.5 + 2.5 for _, _, data in G.edges(data=True)]
+
+            #Manuálne priradenie hrúbky hránam
+            for (start, end, data), width in zip(G.edges(data=True), scaled_weights):
+                xs, ys = zip(*[(x, y) for x, y in [graph_renderer.layout_provider.graph_layout[start], graph_renderer.layout_provider.graph_layout[end]]])
+                plot.line(xs, ys, line_width=width, color="#CCCCCC", alpha=0.8)
+
+            #Pridanie nástrojov
+            hover = HoverTool(tooltips=[("Name", "@name")])
+            plot.add_tools(hover, TapTool(), BoxSelectTool())
+
+            #Štýlovanie grafu
+            graph_renderer.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
+
+            graph_renderer.selection_policy = NodesAndLinkedEdges()
+            graph_renderer.inspection_policy = EdgesAndLinkedNodes()
+
+            #Extrahovanie koordinatov z grafu
+            node_coordinates = graph_renderer.layout_provider.graph_layout
+            x_values = [x for x, _ in node_coordinates.values()]
+            #Poziciovanie textu nad uzly
+            y_values = [y + 0.05 for _, y in node_coordinates.values()]
+            names = [G.nodes[node]['name'] for node in G.nodes()]
+            source = ColumnDataSource(data=dict(x=x_values, y=y_values, name=names))
+            labels = Text(x='x', y='y', text='name', text_align='center', text_baseline='middle')
+            plot.add_glyph(source, labels)
+
+            show(plot)
+
+        else:
+            result_div.text = "No Results"
+    
+    search_button.on_click(search_callback)
+
+    #Pridanie inputu a tlačidla do dokumentu
+    initial_layout = column(text_input, search_button, result_div)
+    doc.add_root(initial_layout)
+
+
+def update_document_with_graph(doc, G):
     G = map_nodes_to_integers_with_labels(G)
 
     #Pridelenie váhy hránam na základe ich dôležitosti
@@ -76,114 +158,18 @@ def showInteractiveMM(G):
     labels = Text(x='x', y='y', text='name', text_align='center', text_baseline='middle')
     plot.add_glyph(source, labels)
 
-    #Zobrazenie grafu
-    show(plot)
+    #show(plot)
+
+    """ def callback(event=None):
+        selected_node_indices = graph_renderer.node_renderer.data_source.selected.indices
+        selected_node_names = [graph_renderer.node_renderer.data_source.data['name'][i] for i in selected_node_indices]
+        print("Selected nodes: ", selected_node_names)
+        #spustenie programu znova TO DO
     
-    #TO DO Pridanie callback funkcie na kliknutie na uzol
+    button = Button(label="Run with selected nodes", button_type="success")
+    button.on_click(callback)
 
-def sort_coo(coo_matrix):
-    tuples = zip(coo_matrix.col, coo_matrix.data)
-    return sorted(tuples, key=lambda x: (x[1], x[0]), reverse=True)
-
-def extract_topn_from_vector(feature_names, sorted_items, topn=10):
-    #Vytvorí zoznam kľúčových slov zo zoradených položiek
-    sorted_items = sorted_items[:topn]
-    score_vals = []
-    feature_vals = []
-    #Iterácia cez zoradené položky
-    for idx, score in sorted_items:
-        fname = feature_names[idx]
-        #Získanie názvu funkcie a skóre
-        score_vals.append(round(score, 3))
-        feature_vals.append(feature_names[idx])
-    results = {}
-    #Iterácia cez zoznam kľúčových slov a skóre
-    for idx in range(len(feature_vals)):
-        results[feature_vals[idx]] = score_vals[idx]
-    return list(results.keys())
-
-def processTextToKeywords(text):
-    #Tokenizovanie textu do viet
-    sentences = nltk.sent_tokenize(text)
-    #Tokenizovanie viet do slov
-    tokenized_sentences = [nltk.word_tokenize(sentence) for sentence in sentences]
-
-    #Vytvorenie bigramov
-    bigram = Phrases(tokenized_sentences, min_count=1, threshold=1)
-    #Vytvorenie trigramov
-    trigram = Phrases(bigram[tokenized_sentences], min_count=1, threshold=1)
-
-    bigram_mod = Phraser(bigram)
-    trigram_mod = Phraser(trigram)
-
-    #Aplikácia bigramov a trigramov na tokenizované vety
-    processed_text = [' '.join(trigram_mod[bigram_mod[sentence]]) for sentence in tokenized_sentences]
-
-    #Spojenie spracovaných viet do jedného textového reťazca
-    joined_text = ' '.join(processed_text)
-
-    #Vytvorenie TF-IDF vektorizéra
-    vectorizer = TfidfVectorizer()
-    #Výpočet TF-IDF hodnôt
-    tfidf_matrix = vectorizer.fit_transform([joined_text])
-    #Získanie názvov funkcií a zoradenie podľa dôležitosti
-    feature_names = vectorizer.get_feature_names_out()
-    sorted_items = sort_coo(tfidf_matrix.tocoo())
-
-    #Získanie top 10 kľúčových slov
-    keywords = extract_topn_from_vector(feature_names, sorted_items, 10)
-
-    return keywords
-
-def determineInputType(input_text):
-    #Určenie typu vstupu
-    if "commit" in input_text and "Author" in input_text:
-        return "git"
-    elif len(input_text.split()) > 10: #Ak je vstup dlhší ako 10 slov, považuje sa za dokumentáciu
-        return "doc"
-    else:
-        #Kratšie vstupy sa považujú za kľúčové slová
-        return "keywords"
-
-# Predpokladá sa, že každý riadok je vo formáte '<hash> <commit message>' (Používateľ to dosiahne príkazom 'git log --pretty=oneline')
-def processGitLog(git_log_text):
-    #Rozdelenie git log textu na riadky
-    lines = git_log_text.strip().split('\n')
-    #Inicializácia zoznamu commit správ
-    commit_messages = []
-    #Iterácia cez každý riadok a extrakcia commit správ
-    for line in lines:
-        #Môžeme použiť regulárny výraz na extrakciu commit správ
-        match = re.match(r'^[a-fA-F0-9]+\s+(.*)$', line)
-        if match:
-            commit_message = match.group(1)
-            commit_messages.append(commit_message)
-    return commit_messages
-
-def userInput():
-    try:
-        with open("keywords.txt", 'r', encoding='utf-8') as file:
-            input_text = file.read()
-    except Exception as e:
-        print(f"Error reading file: {e}")
-        return None
-    
-    input_type = determineInputType(input_text)
-    keywords = []
-    if input_type == "git":
-        #Spracovanie git logu na získanie commit správ
-        commit_messages = processGitLog(input_text)
-        #Zlúčenie commit správ do jedného textového reťazca
-        text = '. '.join(commit_messages)
-        #Spracovanie textu na získanie kľúčových slov
-        keywords = processTextToKeywords(text)
-    elif input_type == "doc":
-        keywords = processTextToKeywords(input_text)
-    else:
-        keywords = input_text.strip().split()
-
-    print(f"Kľúčové slová: {keywords}")
-    return keywords
+    new_layout = layout([[button], [plot]]) """
 
 def searchSO(keywords, numberOfQuestions=20):
     questions = []
@@ -272,36 +258,17 @@ def generateHTML(questions):
 
     return html_content
 
-def printQuestions(questions):
-    #Vygenerovanie HTML obsahu
-    html_content = generateHTML(questions)
+# Vytvorenie Bokeh aplikácie
+bokeh_app = Application(FunctionHandler(modify_doc))
 
-    #Uloženie do súboru
-    temp_file = "temp_questions_answers.html"
-    with open(temp_file, 'w', encoding='utf-8') as f:
-        f.write(html_content)
+def run_server():
+    # Spustenie Bokeh servera
+    server = Server({'/': bokeh_app}, port=5000)
+    server.start()
 
-    #Otvorenie súboru v prehliadači
-    webbrowser.open('file://' + os.path.realpath(temp_file))
-
-def main():
-    #Získanie vstupu od používateľa
-    keywords = userInput()
-
-    #Ak je zoznam prázdny
-    if not keywords:
-        print("No results")
-        return
-    
-    #Vyhľadanie otázok na StackOverflow
-    questions = searchSO(keywords)
-
-    if questions:
-        printQuestions(questions)
-        G = createMM(questions)
-        showInteractiveMM(G)
-    else:
-        print("No results")
+    #Orvorenie aplikácie v prehliadači
+    server.io_loop.add_callback(server.show, "/")
+    server.io_loop.start()
 
 if __name__ == "__main__":
-    main()
+    run_server()
