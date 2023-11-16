@@ -241,12 +241,14 @@ def generateHTML(questions):
     html_content = "<html><head><title>StackOverflow Q&A</title></head><body>"
 
     for idx, question in enumerate(questions, 1):
-        html_content += f"<h2>Question {idx}: {question['title']}</h2>"
-        html_content += f"<div>{question['body']}</div>"
+        # Zbaliteľný nadpis otázky
+        html_content += f"<details><summary>Question {idx}: {question['title']}</summary>"
+        html_content += f"<div>{question['body']}</div>"  # Obsah otázky
         if 'answers' in question:
             for answer_idx, answer in enumerate(question['answers'], 1):
-                html_content += f"<h3>Answer {answer_idx}:</h3><div>{answer}</div>"
-        html_content += "<hr>"
+                # Zbaliteľný nadpis odpovede
+                html_content += f"<details><summary>Answer {answer_idx}</summary><div>{answer}</div></details>"
+        html_content += "</details><hr>"
     html_content += "</body></html>"
 
     return html_content
