@@ -6,7 +6,7 @@ from bokeh.models.widgets import Button
 from bokeh.layouts import column, row
 from nltk.corpus import stopwords
 from bokeh.plotting import from_networkx, figure
-from bokeh.models import Range1d, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text, TextInput, Button, Div, LabelSet
+from bokeh.models import Range1d, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text, TextInput, Button, Div, CheckboxGroup
 from bokeh.models.graphs import NodesAndLinkedEdges, EdgesAndLinkedNodes
 from bokeh.palettes import Spectral4
 from bokeh.server.server import Server
@@ -25,7 +25,7 @@ def map_nodes_to_integers_with_labels(G):
     return H
 
 def modify_doc(doc):
-    #Používateľský vstup
+    # Používateľský vstup
     text_input = TextInput(value="Enter keywords here")
     search_button = Button(label="Search", button_type="success")
     result_div = Div(text="")
@@ -34,6 +34,7 @@ def modify_doc(doc):
     layout = column(text_input, search_button, result_div)
     rowlayout = row(layout, placeholder)
 
+    # Callback pre vyhľadávanie
     def search_callback():
         keywords = text_input.value.split(",")  # Kľúčové slová oddelené čiarkou
 
@@ -52,7 +53,7 @@ def modify_doc(doc):
                 d['weight'] = G.degree(u) + G.degree(v)
 
             # Vytvorenie grafu
-            plot = figure(width=800, height=800, x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
+            plot = figure(width=800, height=800, x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1, 1.1))
             plot.title.text = "Interactive Mind Map"
 
             # Vytvorenie Bokeh grafu z NetworkX grafu
@@ -100,6 +101,19 @@ def modify_doc(doc):
 
             # Aktualizácia layoutu s novým grafom
             rowlayout.children[-1] = plot  # Nahrádzame posledný element (placeholder) grafom
+
+            # Vytvorenie a pridanie checkboxov
+            checkbox_labels = [f"Question {i+1}" for i in range(len(questions))]
+            checkbox_group = CheckboxGroup(labels=checkbox_labels, active=[])
+            layout.children.insert(1, checkbox_group)  # Pridanie hneď za tlačidlo
+
+            # Periodický callback pre aktualizáciu farby uzlov
+            def update():
+                active_indices = set(checkbox_group.active)
+                colors = [Spectral4[0] if i in active_indices else 'grey' for i in range(len(node_names))]
+                graph_renderer.node_renderer.data_source.data['color'] = colors
+
+            doc.add_periodic_callback(update, 5000)
 
         else:
             result_div.text = "No Results"
@@ -186,19 +200,18 @@ def generateHTML(questions):
     html_content = "<html><head><title>StackOverflow Q&A</title></head><body>"
 
     for idx, question in enumerate(questions, 1):
-        # Zbaliteľný nadpis otázky
-        html_content += f"<input type='checkbox' class='question-checkbox' id='checkbox-{idx}' data-question-id='{idx}'/>"
-        html_content += f"<label for='checkbox-{idx}'>Do not blur Question {idx}</label>"
-        html_content += f"<details><summary>Question {idx}: {question['title']}</summary>"
+        # Zbaliteľný nadpis otázky s identifikátorom
+        html_content += f"<details><summary><b>Question {idx}</b>: {question['title']}</summary>"
         html_content += f"<div>{question['body']}</div>"  # Obsah otázky
         if 'answers' in question:
             for answer_idx, answer in enumerate(question['answers'], 1):
                 # Zbaliteľný nadpis odpovede
-                html_content += f"<details><summary>Answer {answer_idx}</summary><div>{answer}</div></details>"
+                html_content += f"<details><summary><b>Answer {answer_idx}</b></summary><div>{answer}</div></details>"
         html_content += "</details><hr>"
     html_content += "</body></html>"
 
     return html_content
+
 
 # Vytvorenie Bokeh aplikácie
 bokeh_app = Application(FunctionHandler(modify_doc))
