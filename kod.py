@@ -3,7 +3,7 @@ import json
 import networkx as nx
 import nltk
 from bokeh.models.widgets import Button
-from bokeh.layouts import column
+from bokeh.layouts import column, row
 from nltk.corpus import stopwords
 from bokeh.plotting import from_networkx, figure
 from bokeh.models import Range1d, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text, TextInput, Button, Div
@@ -31,7 +31,8 @@ def modify_doc(doc):
     result_div = Div(text="")
     # Inicializácia prázdneho miesta pre graf
     placeholder = Div(text="Graf sa načíta po vykonaní vyhľadávania")
-    layout = column(text_input, search_button, result_div, placeholder)
+    layout = column(text_input, search_button, result_div)
+    rowlayout = row(layout, placeholder)
 
     def search_callback():
         keywords = text_input.value.split(",") #Kľúčové slová oddelené čiarkou
@@ -92,14 +93,14 @@ def modify_doc(doc):
             labels = Text(x='x', y='y', text='name', text_align='center', text_baseline='middle')
             plot.add_glyph(source, labels)
             # Aktualizácia layoutu s novým grafom
-            layout.children[-1] = plot  # Nahrádzame posledný element (placeholder) grafom
+            rowlayout.children[-1] = plot  # Nahrádzame posledný element (placeholder) grafom
         else:
             result_div.text = "No Results"
     
     search_button.on_click(search_callback)
 
     # Pridanie layoutu do dokumentu
-    doc.add_root(layout)
+    doc.add_root(rowlayout)
 
 
 def update_document_with_graph(doc, G):
