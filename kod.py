@@ -243,6 +243,8 @@ def generateHTML(questions):
 
     for idx, question in enumerate(questions, 1):
         # Zbaliteľný nadpis otázky
+        html_content += f"<input type='checkbox' class='question-checkbox' id='checkbox-{idx}' data-question-id='{idx}'/>"
+        html_content += f"<label for='checkbox-{idx}'>Do not blur Question {idx}</label>"
         html_content += f"<details><summary>Question {idx}: {question['title']}</summary>"
         html_content += f"<div>{question['body']}</div>"  # Obsah otázky
         if 'answers' in question:
