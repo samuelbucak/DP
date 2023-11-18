@@ -6,7 +6,7 @@ from bokeh.models.widgets import Button
 from bokeh.layouts import column, row
 from nltk.corpus import stopwords
 from bokeh.plotting import from_networkx, figure
-from bokeh.models import Range1d, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text, TextInput, Button, Div
+from bokeh.models import Range1d, Circle, HoverTool, TapTool, BoxSelectTool, ColumnDataSource, Text, TextInput, Button, Div, LabelSet
 from bokeh.models.graphs import NodesAndLinkedEdges, EdgesAndLinkedNodes
 from bokeh.palettes import Spectral4
 from bokeh.server.server import Server
@@ -35,50 +35,55 @@ def modify_doc(doc):
     rowlayout = row(layout, placeholder)
 
     def search_callback():
-        keywords = text_input.value.split(",") #Kľúčové slová oddelené čiarkou
+        keywords = text_input.value.split(",")  # Kľúčové slová oddelené čiarkou
 
-        #Vyhľadávanie
+        # Vyhľadávanie
         questions = searchSO(keywords)
 
         if questions:
             html_content = generateHTML(questions)
             result_div.text = html_content
             G = createMM(questions)
-            #VYTVORENIE GRAFU
+            # VYTVORENIE GRAFU
             G = map_nodes_to_integers_with_labels(G)
 
-            #Pridelenie váhy hránam na základe ich dôležitosti
+            # Pridelenie váhy hránam na základe ich dôležitosti
             for u, v, d in G.edges(data=True):
                 d['weight'] = G.degree(u) + G.degree(v)
 
-            #Vytvorenie grafu
+            # Vytvorenie grafu
             plot = figure(width=800, height=800, x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
             plot.title.text = "Interactive Mind Map"
 
-            #Vytvorenie bokeh grafu z networkx grafu
+            # Vytvorenie Bokeh grafu z NetworkX grafu
             graph_renderer = from_networkx(G, nx.spring_layout, scale=1, center=(0, 0))
-            graph_renderer.node_renderer.data_source.data['name'] = [G.nodes[node]['name'] for node in G.nodes()]
 
-            #Zablokovanie defaultneho renderera hran
+            # Pridanie farieb do node_renderer.data_source
+            node_names = [G.nodes[node]['name'] for node in G.nodes()]
+            node_colors = [Spectral4[0] for _ in G.nodes()]  # Predpokladá sa počiatočná farba
+            graph_renderer.node_renderer.data_source.data['name'] = node_names
+            graph_renderer.node_renderer.data_source.data['color'] = node_colors
+
+            # Zablokovanie defaultného renderera hrán
             graph_renderer.edge_renderer.visible = False
 
             plot.renderers.append(graph_renderer)
 
-            #Normalizovanie hrúbok hrán
+            # Normalizovanie hrúbok hrán
             max_weight = max([data['weight'] for _, _, data in G.edges(data=True)])
             scaled_weights = [(data['weight'] / max_weight) * 2.5 + 2.5 for _, _, data in G.edges(data=True)]
 
-            #Manuálne priradenie hrúbky hránam
+            # Manuálne priradenie hrúbky hránam
             for (start, end, data), width in zip(G.edges(data=True), scaled_weights):
                 xs, ys = zip(*[(x, y) for x, y in [graph_renderer.layout_provider.graph_layout[start], graph_renderer.layout_provider.graph_layout[end]]])
                 plot.line(xs, ys, line_width=width, color="#CCCCCC", alpha=0.8)
 
-            #Pridanie nástrojov
+            # Pridanie nástrojov
             hover = HoverTool(tooltips=[("Name", "@name")])
             plot.add_tools(hover, TapTool(), BoxSelectTool())
 
-            #Štýlovanie grafu
-            graph_renderer.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
+            # Štýlovanie grafu
+            graph_renderer.node_renderer.glyph = Circle(size=15, fill_color='color')  # Použitie stĺpca 'color' pre farbu
 
             graph_renderer.selection_policy = NodesAndLinkedEdges()
             graph_renderer.inspection_policy = EdgesAndLinkedNodes()
@@ -86,84 +91,23 @@ def modify_doc(doc):
             #Extrahovanie koordinatov z grafu
             node_coordinates = graph_renderer.layout_provider.graph_layout
             x_values = [x for x, _ in node_coordinates.values()]
+
             #Poziciovanie textu nad uzly
             y_values = [y + 0.05 for _, y in node_coordinates.values()]
-            names = [G.nodes[node]['name'] for node in G.nodes()]
-            source = ColumnDataSource(data=dict(x=x_values, y=y_values, name=names))
+            source = ColumnDataSource(data=dict(x=x_values, y=y_values, name=node_names))
             labels = Text(x='x', y='y', text='name', text_align='center', text_baseline='middle')
             plot.add_glyph(source, labels)
+
             # Aktualizácia layoutu s novým grafom
             rowlayout.children[-1] = plot  # Nahrádzame posledný element (placeholder) grafom
+
         else:
             result_div.text = "No Results"
-    
+
     search_button.on_click(search_callback)
 
     # Pridanie layoutu do dokumentu
     doc.add_root(rowlayout)
-
-
-def update_document_with_graph(doc, G):
-    G = map_nodes_to_integers_with_labels(G)
-
-    #Pridelenie váhy hránam na základe ich dôležitosti
-    for u, v, d in G.edges(data=True):
-        d['weight'] = G.degree(u) + G.degree(v)
-
-    #Vytvorenie grafu
-    plot = figure(width=800, height=800, x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
-    plot.title.text = "Interactive Mind Map"
-
-    #Vytvorenie bokeh grafu z networkx grafu
-    graph_renderer = from_networkx(G, nx.spring_layout, scale=1, center=(0, 0))
-    graph_renderer.node_renderer.data_source.data['name'] = [G.nodes[node]['name'] for node in G.nodes()]
-
-    #Zablokovanie defaultneho renderera hran
-    graph_renderer.edge_renderer.visible = False
-
-    plot.renderers.append(graph_renderer)
-
-    #Normalizovanie hrúbok hrán
-    max_weight = max([data['weight'] for _, _, data in G.edges(data=True)])
-    scaled_weights = [(data['weight'] / max_weight) * 2.5 + 2.5 for _, _, data in G.edges(data=True)]
-
-    #Manuálne priradenie hrúbky hránam
-    for (start, end, data), width in zip(G.edges(data=True), scaled_weights):
-        xs, ys = zip(*[(x, y) for x, y in [graph_renderer.layout_provider.graph_layout[start], graph_renderer.layout_provider.graph_layout[end]]])
-        plot.line(xs, ys, line_width=width, color="#CCCCCC", alpha=0.8)
-
-    #Pridanie nástrojov
-    hover = HoverTool(tooltips=[("Name", "@name")])
-    plot.add_tools(hover, TapTool(), BoxSelectTool())
-
-    #Štýlovanie grafu
-    graph_renderer.node_renderer.glyph = Circle(size=15, fill_color=Spectral4[0])
-
-    graph_renderer.selection_policy = NodesAndLinkedEdges()
-    graph_renderer.inspection_policy = EdgesAndLinkedNodes()
-
-    #Extrahovanie koordinatov z grafu
-    node_coordinates = graph_renderer.layout_provider.graph_layout
-    x_values = [x for x, _ in node_coordinates.values()]
-    #Poziciovanie textu nad uzly
-    y_values = [y + 0.05 for _, y in node_coordinates.values()]
-    names = [G.nodes[node]['name'] for node in G.nodes()]
-    source = ColumnDataSource(data=dict(x=x_values, y=y_values, name=names))
-    labels = Text(x='x', y='y', text='name', text_align='center', text_baseline='middle')
-    plot.add_glyph(source, labels)
-
-    #show(plot)
-
-    """ def callback(event=None):
-        selected_node_indices = graph_renderer.node_renderer.data_source.selected.indices
-        selected_node_names = [graph_renderer.node_renderer.data_source.data['name'][i] for i in selected_node_indices]
-        print("Selected nodes: ", selected_node_names)
-        #spustenie programu znova TO DO
-    
-    button = Button(label="Run with selected nodes", button_type="success")
-    button.on_click(callback)
-
-    new_layout = layout([[button], [plot]]) """
 
 def searchSO(keywords, numberOfQuestions=20):
     questions = []
