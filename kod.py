@@ -44,7 +44,7 @@ def modify_doc(doc):
         if questions:
             html_content = generateHTML(questions)
             result_div.text = html_content
-            G = createMM(questions)
+            G, question_to_nodes = createMM(questions)
             # VYTVORENIE GRAFU
             G = map_nodes_to_integers_with_labels(G)
 
@@ -110,8 +110,15 @@ def modify_doc(doc):
             # Periodický callback pre aktualizáciu farby uzlov
             def update():
                 active_indices = set(checkbox_group.active)
-                colors = [Spectral4[0] if i in active_indices else 'grey' for i in range(len(node_names))]
-                graph_renderer.node_renderer.data_source.data['color'] = colors
+                node_colors = graph_renderer.node_renderer.data_source.data['color']
+                node_names = graph_renderer.node_renderer.data_source.data['name']
+
+                for i, node in enumerate(node_names):
+                    # Zistíme, či tento uzol patrí k akejkoľvek aktívnej otázke
+                    is_active = any((idx in active_indices) for idx, nodes in question_to_nodes.items() if node in nodes)
+                    node_colors[i] = Spectral4[0] if is_active else 'grey'
+
+                graph_renderer.node_renderer.data_source.data['color'] = node_colors
 
             doc.add_periodic_callback(update, 5000)
 
@@ -151,26 +158,27 @@ def nounsVerbs(text):
     return [word for word, pos in tagged if pos.startswith('NN') or pos.startswith('VB')]
 
 def createMM(questions):
-    #Načítanie stopwords
     stop_words = set(stopwords.words('english'))
 
     G = nx.Graph()
+    question_to_nodes = {}  # Mapovanie otázok na uzly
 
-    for question in questions:
+    for idx, question in enumerate(questions, 1):
         title = question['title']
         words = nounsVerbs(title)
+        question_to_nodes[idx-1] = set()
+
         for word in words:
             word = word.lower()
             if word not in stop_words:
+                question_to_nodes[idx-1].add(word)
                 G.add_node(word)
                 for other_word in words:
                     other_word = other_word.lower()
                     if other_word != word and other_word not in stop_words:
                         if not G.has_edge(word, other_word):
-                            #Ak medzi slovami neexistuje hrana, vytvorí ju s váhou 1
                             G.add_edge(word, other_word, weight=1)
                         else:
-                            #Ak medzi slovami existuje hrana, zvýši jej váhu o 1
                             G[word][other_word]['weight'] += 1
 
     #Ak sú medzi tromi uzlami viac ako 2 hrany, odstráni hrany s najnižšou váhou
@@ -194,7 +202,7 @@ def createMM(questions):
                     elif G.has_edge(u, v) and G[u][v]['weight'] == min_weight:
                         G.remove_edge(u, v)
     
-    return G
+    return G, question_to_nodes
 
 def generateHTML(questions):
     html_content = "<html><head><title>StackOverflow Q&A</title></head><body>"
