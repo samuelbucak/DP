@@ -130,11 +130,11 @@ def modify_doc(doc):
     # Pridanie layoutu do dokumentu
     doc.add_root(rowlayout)
 
-def searchSO(keywords, numberOfQuestions=20):
+def searchSO(keywords, numberOfQuestions=5):
     questions = []
     while len(questions) < numberOfQuestions and len(keywords) > 0:
-        query = '+'.join(keywords).replace(' ', '+').replace('_', ' ')
-        url = f"https://api.stackexchange.com/2.3/search?order=desc&sort=relevance&intitle={query}&site=stackoverflow&filter=withbody"
+        query = ' AND '.join(keywords).replace(' ', '%20')
+        url = f"https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=relevance&q={query}&site=stackoverflow&filter=withbody"
         response = requests.get(url)
         if response.status_code == 200:
             results = json.loads(response.text)
@@ -148,6 +148,7 @@ def searchSO(keywords, numberOfQuestions=20):
                     top_answers = sorted(answers, key=lambda x: x['score'], reverse=True)[:5]                    
                     question['answers'] = [answer['body'] for answer in top_answers if 'body' in answer]
                 questions.append(question)
+                print(numberOfQuestions - len(questions))
         if len(questions) < numberOfQuestions:
             keywords.pop() #odstránenie posledného kľúčového slova
     return questions
